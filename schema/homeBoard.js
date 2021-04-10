@@ -25,9 +25,10 @@ const homeBoard = new Schema({
 		type: String,
 		requried: true,
 	},
-	img:{
+	img: {
 		type: Array,
-		default: []
+		requried: true,
+		default: "https://vrthumb.clipartkorea.co.kr/2018/08/06/ti367a12202.jpg"
 	},
 	date:{
 		type: String,

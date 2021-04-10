@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { Schema } = mongoose;
+const { Schema, model, Types } = mongoose;
 
 const marker = new Schema({
     location : { 
@@ -11,11 +11,11 @@ const marker = new Schema({
         required: true 
     },
     boardcount:{
-		type: int,
+		type: Number,
 		requried: true,
         default:0
     }
 });
 
 
-module.exports = mongoose.model('Marker', user);
+module.exports = mongoose.model('Marker', marker);
