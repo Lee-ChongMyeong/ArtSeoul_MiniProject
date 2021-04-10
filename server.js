@@ -15,6 +15,8 @@ app.use(express.static('public'));
 
 const userRouter = require('./routers/userRouter');
 app.use("/user",[userRouter]);
+app.use("/board",[boardRouter]);
+app.use("/marker",[markerRouter]);
 
 app.listen(port, () => {
 	console.log(`Server start at http://localhost:${port}`);
