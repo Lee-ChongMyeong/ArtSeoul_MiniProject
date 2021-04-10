@@ -1,17 +1,18 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const board = new Schema({
-	user:{
-		type: Types.ObjectId,
-		required: true,
-		ref: "User",
-	},
-	markerId:{
-		type: Types.ObjectId,
-		required: true,
-		ref: "Marker",
-	},
+const homeBoard = new Schema({
+	// user:{
+	// 	type: Types.ObjectId,
+	// 	required: true,
+	// 	ref: "User",
+	// },
+	// markerId:{
+	// 	type: Types.ObjectId,
+	// 	required: true,
+	// 	ref: "Marker",
+	// },
+	
 	title:{
 		type: String,
 		requried: true,
@@ -25,10 +26,18 @@ const board = new Schema({
 		requried: true,
 	},
 	img:{
+		type: Array,
+		default: []
+	},
+	date:{
 		type: String,
-		requried: true,
-		default:"https://vrthumb.clipartkorea.co.kr/2018/08/06/ti367a12202.jpg"
-	}
+		required: true,
+		default: Date.now()
+	},
+	
+});
+homeBoard.virtual('boardId').get(function () {
+	return this._id.toHexString();
 });
 
 

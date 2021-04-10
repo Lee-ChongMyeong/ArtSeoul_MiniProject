@@ -14,6 +14,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static('public'));
 
 const userRouter = require('./routers/userRouter');
+const boardRouter = require('./routers/boardRouter');
+const markerRouter = require('./routers/markerRouter');
 app.use("/user",[userRouter]);
 app.use("/board",[boardRouter]);
 app.use("/marker",[markerRouter]);
