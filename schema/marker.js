@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 
 const marker = new Schema({
     location : { 
-        type: String, 
+        type: Array,
         required: true 
     },
     markertype:{
