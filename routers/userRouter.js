@@ -3,6 +3,7 @@ const userRouter = express.Router();
 const jwt = require("jsonwebtoken");
 const authMiddleware = require("../middlewares/auth-middleware.js");
 const User = require("../schema/User");
+require('dotenv').config();
 
 
 // 테스트 연결코드
@@ -42,7 +43,7 @@ userRouter.post("/login", async (req, res) => {
                 .status(400)
                 .send({ err: "아이디 또는 패스워드가 잘못됐습니다." });
         }
-        const token = jwt.sign({ userId: user.id }, "starbucks_clone_key");
+        const token = jwt.sign({ userId: user.id }, `${process.env.SECRET_KEY}`);
         return res.send({ result: { user: { token: token } } });
     } catch (err) {
         console.log(err);
