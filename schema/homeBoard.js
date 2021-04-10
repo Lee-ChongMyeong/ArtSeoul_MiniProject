@@ -1,33 +1,33 @@
 const mongoose = require('mongoose');
-const { Schema } = mongoose;
+const { Schema, model, Types } = mongoose;
 
-const board = new Schema({
-	user:{
+const homeBoard = new Schema({
+	user: {
 		type: Types.ObjectId,
 		required: true,
 		ref: "User",
 	},
-	markerId:{
+	markerId: {
 		type: Types.ObjectId,
 		required: true,
 		ref: "Marker",
 	},
-	title:{
+	title: {
 		type: String,
 		requried: true,
 	},
-    contents:{
+	contents: {
 		type: String,
 		requried: true,
 	},
-	nickname:{
+	nickname: {
 		type: String,
 		requried: true,
 	},
-	img:{
+	img: {
 		type: String,
 		requried: true,
-		default:"https://vrthumb.clipartkorea.co.kr/2018/08/06/ti367a12202.jpg"
+		default: "https://vrthumb.clipartkorea.co.kr/2018/08/06/ti367a12202.jpg"
 	}
 });
 
