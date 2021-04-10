@@ -1,7 +1,7 @@
 {
-  "name": "Art_Korea",
+  "name": "ArtSeoul",
   "version": "1.0.0",
-  "description": "",
+  "description": "ArtSeoul 프로젝트",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -20,6 +20,7 @@
   "homepage": "https://github.com/Lee-ChongMyeong/Art_Korea#readme",
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.12.3",
