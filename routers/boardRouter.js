@@ -5,9 +5,10 @@ const HomeBoard = require('../schema/homeBoard');
 const authMiddleware = require("../middlewares/auth-middleware");
 
 //게시글 목록
-boardRouter.get('/', async (req, res) => {
+boardRouter.get('/', authMiddleware, async (req, res) => {
 	let result = { status: 'success', boardsData: [] };
 	try {
+    const user = res.locals.user;
 		let boardsData = await HomeBoard.find().sort({ date: -1 });
 		for (homeBoard of boardsData) {
 			let temp = {
@@ -28,13 +29,15 @@ boardRouter.get('/', async (req, res) => {
 });
 
 // 게시글 추가 
-boardRouter.post('/',  async (req, res) => {
+boardRouter.post('/', authMiddleware, async (req, res) => {
 	let result = { status: 'success' };
 	try {
-		await HomeBoard.create({
+    const user = res.locals.user;
+    await HomeBoard.create({
 			title: req.body['title'],
 			contents: req.body['contents'],
-			nickname: "총명이", // 가상의 닉네임
+			nickname: user.nickname,
+      userId : user.id,
 			date: Date.now(),
 			img: req.body['img']
 		});
@@ -46,14 +49,15 @@ boardRouter.post('/',  async (req, res) => {
 
 
 // 게시글 수정
-boardRouter.put("/:boardId", async (req, res) => {
+boardRouter.put("/:boardId", authMiddleware, async (req, res) => {
     let result = { status: "success" };
     try {
-        const boardId = req.params.boardId;
+      const user = res.locals.user;
+      const boardId = req.params.boardId;
       if (req.body["img"]) {
         const { n } = await HomeBoard.updateOne(
           // n은 조회된 데이터 갯수
-          { _id: boardId },
+          { _id: boardId, userId : user.id },
           { title : req.body.title, contents: req.body.contents, img: req.body.img }
         );
         if (!n) {
@@ -61,7 +65,7 @@ boardRouter.put("/:boardId", async (req, res) => {
         }
       } else {
         const { n } = await HomeBoard.updateOne(
-          { _id: boardId },
+          { _id: boardId, userId: user.id },
           { title : req.body.title, contents: req.body.contents }
         );
         if (!n) {
@@ -75,12 +79,14 @@ boardRouter.put("/:boardId", async (req, res) => {
   });
 
 // 게시글 삭제
-boardRouter.delete("/:boardId", async (req, res) => {
+boardRouter.delete("/:boardId", authMiddleware, async (req, res) => {
     let result = { status: "success" };
     try {
+      const user = res.locals.user;
       const boardId = req.params.boardId;
       const { deletedCount } = await HomeBoard.deleteOne({
         _id: boardId,
+        userId : user.id,
       });
       if (deletedCount) {
         await HomeBoard.deleteMany({ boardId: boardId });

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { Schema, model, Types } = mongoose;
+const { Schema } = mongoose;
 
 const user = new Schema({
 	id: { type: String, required: true, unique: true },
@@ -7,5 +7,12 @@ const user = new Schema({
 	nickname: { type: String, required: true, unique: true },
 });
 
+user.virtual('userId').get(function () {
+	return this._id.toHexString();
+});
+
+user.set('toJSON', {
+	virtuals: true
+});
 
 module.exports = mongoose.model('User', user);
