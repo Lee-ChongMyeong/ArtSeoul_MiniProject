@@ -1,8 +1,8 @@
 const express = require("express");
 const userRouter = express.Router();
 const jwt = require("jsonwebtoken");
-const authMiddleware = require("../middlewares/auth-middleware");
-const User = require("../schema/User");
+const authMiddleware = require("../middlewares/auth-middleware.js");
+const User = require("../schema/user");
 require('dotenv').config();
 
 
@@ -25,7 +25,7 @@ userRouter.post("/register", async (req, res) => {
             });
             return;
         }
-        User.create({ nickname, id, password });
+        await User.create({ nickname, id, password });
         return res.status(201).send({ result: "회원가입 완료!" });
 
     } catch (error) {
@@ -50,5 +50,6 @@ userRouter.post("/login", async (req, res) => {
         return res.status(400).send({ err: err.message });
     }
 });
+
 
 module.exports = { userRouter };

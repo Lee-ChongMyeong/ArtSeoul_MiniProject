@@ -12,34 +12,23 @@ const homeBoard = new Schema({
 	// 	required: true,
 	// 	ref: "Marker",
 	// },
-	
-	title:{
-		type: String,
-		requried: true,
-	},
-    contents:{
-		type: String,
-		requried: true,
-	},
-	nickname:{
-		type: String,
-		requried: true,
-	},
-	img: {
-		type: Array,
-		requried: true,
-		default: "https://vrthumb.clipartkorea.co.kr/2018/08/06/ti367a12202.jpg"
-	},
-	date:{
-		type: String,
-		required: true,
-		default: Date.now()
-	},
+
+	userId: { type: String, required: true },
+	title : { type: String, required: true },
+    contents : { type: String, required: true },
+	nickname: { type: String, required: true },
+	date: { type: String, required: true, default: Date.now() },
+	img : { type: Array, default: [ "https://vrthumb.clipartkorea.co.kr/2018/08/06/ti367a12202.jpg"] }
 	
 });
 homeBoard.virtual('boardId').get(function () {
 	return this._id.toHexString();
 });
+
+homeBoard.set('toJSON', {
+	virtuals: true
+});
+
 
 
 module.exports = mongoose.model('HomeBoard', homeBoard);

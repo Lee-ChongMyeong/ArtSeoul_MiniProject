@@ -4,7 +4,6 @@ require('dotenv').config();
 const port = process.env.EXPRESS_PORT;
 
 
-
 // DB연결
 const connect = require('./schema/dbConnect');
 connect();
