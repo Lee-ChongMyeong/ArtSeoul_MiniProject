@@ -8,10 +8,7 @@ const homeBoard = new Schema({
 	// 	ref: "User",
 	// },
 
-	markerId: {
-		type: String,
-		required: true
-	},
+	markerId: {type: String, required: true},
 	userId: { type: String, required: true },
 	title: { type: String, required: true },
 	contents: { type: String, required: true },

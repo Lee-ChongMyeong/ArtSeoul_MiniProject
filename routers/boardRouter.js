@@ -83,7 +83,7 @@ boardRouter.put("/:boardId", authMiddleware, async (req, res) => {
     if (req.body["img"]) {
       const { n } = await HomeBoard.updateOne(
         { _id: boardId, userId: user.id },
-        {  title: req.body.title, contents: req.body.contents, img: req.body.img }
+        { markerId : req.body.markerId, title: req.body.title, contents: req.body.contents, img: req.body.img }
       );
       console.log(n)
       if (!n) {
@@ -92,7 +92,7 @@ boardRouter.put("/:boardId", authMiddleware, async (req, res) => {
     } else {
       const { n } = await HomeBoard.updateOne(
         { _id: boardId, userId: user.id },
-        { title: req.body.title, contents: req.body.contents }
+        { markerId : req.body.markerId, title: req.body.title, contents: req.body.contents }
       );
       console.log(n)
       if (!n) {
