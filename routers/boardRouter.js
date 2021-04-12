@@ -75,10 +75,10 @@ boardRouter.put("/:boardId", authMiddleware, async (req, res) => {
   let result = { status: "success" };
   try {
     const user = res.locals.user;
+    console.log(user.id)
     const boardId = req.params.boardId;
     if (req.body["img"]) {
       const { n } = await HomeBoard.updateOne(
-        // n은 조회된 데이터 갯수
         { _id: boardId, userId: user.id },
         { title: req.body.title, contents: req.body.contents, img: req.body.img }
       );

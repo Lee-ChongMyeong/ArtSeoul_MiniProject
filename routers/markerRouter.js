@@ -1,7 +1,7 @@
 const express = require('express');
 const markerRouter = express.Router();
 const jwt = require("jsonwebtoken");
-const Marker = require("../schema/Marker");
+const Marker = require("../schema/marker");
 
 markerRouter.get("/test",async(req,res)=>{
     console.log("잘연결됐으요~");
