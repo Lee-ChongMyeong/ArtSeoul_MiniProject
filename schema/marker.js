@@ -10,11 +10,6 @@ const marker = new Schema({
         type: String,
         required: true 
     },
-    boardcount:{
-		type: Number,
-		requried: true,
-        default:0
-    },
     markername:{
 		type: String,
 		requried: true

@@ -52,3 +52,4 @@ markerRouter.delete("/", async (req, res) => {
 })
 
 module.exports = { markerRouter };
+

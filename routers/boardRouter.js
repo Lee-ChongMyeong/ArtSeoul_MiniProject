@@ -50,7 +50,6 @@ boardRouter.get('/', authMiddleware, async (req, res) => {
 });
 
 // 게시글 추가
-// 마커안에있는 boardcount값 +1 부탁
 boardRouter.post('/', authMiddleware, async (req, res) => {
   const user = res.locals.user;
   console.log(user)
