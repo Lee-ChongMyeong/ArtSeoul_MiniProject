@@ -34,7 +34,7 @@ userRouter.post("/register", async (req, res) => {
 });
 
 // 로그인
-userRouter.post("/login", async (req, res) => {
+userRouter.post("/login", auth-authMiddleware ,async (req, res) => {
     const { id, password } = req.body;
     try {
         const user = await User.findOne().and([{ id }, { password }]);
