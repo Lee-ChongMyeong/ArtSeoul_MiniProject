@@ -33,6 +33,7 @@ boardRouter.get('/', authMiddleware, async (req, res) => {
     for (homeBoard of boardsData) {
       let temp = {
         boardId: homeBoard["_id"],
+        userId: homeBoard["userId"],
         title: homeBoard["title"],
         contents: homeBoard["contents"],
         nickname: homeBoard["nickname"],
@@ -63,7 +64,7 @@ boardRouter.post('/', authMiddleware, async (req, res) => {
       img: req.body['img']
     });
 
-    res.send({result:result});
+    res.send({ result: result });
   } catch (err) {
     result['status'] = 'fail';
     res.json(result);
@@ -76,23 +77,25 @@ boardRouter.put("/:boardId", authMiddleware, async (req, res) => {
   let result = { status: "success" };
   try {
     const user = res.locals.user;
+    console.log(user.id)
     const boardId = req.params.boardId;
     if (req.body["img"]) {
       const { n } = await HomeBoard.updateOne(
-        // n은 조회된 데이터 갯수
         { _id: boardId, userId: user.id },
         { title: req.body.title, contents: req.body.contents, img: req.body.img }
       );
+      console.log(n)
       if (!n) {
-        result["status"] = "fail";
+        result["status"] = "fail1";
       }
     } else {
       const { n } = await HomeBoard.updateOne(
         { _id: boardId, userId: user.id },
         { title: req.body.title, contents: req.body.contents }
       );
+      console.log(n)
       if (!n) {
-        result["status"] = "fail";
+        result["status"] = "fail2";
       }
     }
   } catch (err) {
@@ -105,8 +108,8 @@ boardRouter.put("/:boardId", authMiddleware, async (req, res) => {
 boardRouter.delete("/:boardId", authMiddleware, async (req, res) => {
   let result = { status: "success" };
   try {
-    const user = res.locals.user;
     const boardId = req.params.boardId;
+    const user = res.locals.user;
     const { deletedCount } = await HomeBoard.deleteOne({
       _id: boardId,
       userId: user.id,
