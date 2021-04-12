@@ -38,5 +38,4 @@ markerRouter.get("/display",async(req,res)=>{
 });
 
 // 마커 삭제
-
 module.exports = {markerRouter};

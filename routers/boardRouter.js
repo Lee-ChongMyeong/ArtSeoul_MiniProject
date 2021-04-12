@@ -65,6 +65,7 @@ boardRouter.post('/', authMiddleware, async (req, res) => {
     });
 
     res.send({ result: result });
+    console.log(result)
   } catch (err) {
     result['status'] = 'fail';
     res.json(result);
@@ -82,7 +83,7 @@ boardRouter.put("/:boardId", authMiddleware, async (req, res) => {
     if (req.body["img"]) {
       const { n } = await HomeBoard.updateOne(
         { _id: boardId, userId: user.id },
-        { title: req.body.title, contents: req.body.contents, img: req.body.img }
+        {  title: req.body.title, contents: req.body.contents, img: req.body.img }
       );
       console.log(n)
       if (!n) {
