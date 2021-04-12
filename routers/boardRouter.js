@@ -87,11 +87,11 @@ boardRouter.put("/:boardId", authMiddleware, async (req, res) => {
       );
       console.log(n)
       if (!n) {
-        result["status"] = "fail1";
+        result["status"] = "fail";
       }
-      let boardsData = await HomeBoard.find({ _id : boardId, userId : user.id })
+      let boardsData = await HomeBoard.findOne({ _id : boardId, userId : user.id })
       let temp = { img : boardsData['img']}
-      result['boardsData'].push(temp);
+      result["boardsData"].push(temp);
     } else {
       const { n } = await HomeBoard.updateOne(
         { _id: boardId, userId: user.id },
@@ -99,7 +99,7 @@ boardRouter.put("/:boardId", authMiddleware, async (req, res) => {
       );
       console.log(n)
       if (!n) {
-        result["status"] = "fail2";
+        result["status"] = "fail";
       }
     }
   } catch (err) {
