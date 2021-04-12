@@ -2,7 +2,7 @@ const express = require('express');
 const boardRouter = express.Router();
 const jwt = require("jsonwebtoken");
 const HomeBoard = require('../schema/homeBoard');
-const User = require('../schema/User');
+const User = require('../schema/user');
 const authMiddleware = require("../middlewares/auth-middleware");
 
 //test
