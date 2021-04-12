@@ -75,7 +75,7 @@ boardRouter.post('/', authMiddleware, async (req, res) => {
 
 // 게시글 수정
 boardRouter.put("/:boardId", authMiddleware, async (req, res) => {
-  let result = { status: "success" };
+  let result = { status: "success", boardsData : [] };
   try {
     const user = res.locals.user;
     console.log(user.id)
@@ -89,6 +89,9 @@ boardRouter.put("/:boardId", authMiddleware, async (req, res) => {
       if (!n) {
         result["status"] = "fail1";
       }
+      let boardsData = await HomeBoard.find({ _id : boardId, userId : user.id })
+      let temp = { img : boardsData['img']}
+      result['boardsData'].push(temp);
     } else {
       const { n } = await HomeBoard.updateOne(
         { _id: boardId, userId: user.id },
