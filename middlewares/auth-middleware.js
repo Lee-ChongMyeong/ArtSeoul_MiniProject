@@ -20,7 +20,7 @@ module.exports = (req, res, next) => {
       });
    } catch (error) {
       res.json({
-         msg: 'not_login'
+         mss: 'not_login'
       });
       return;
    }

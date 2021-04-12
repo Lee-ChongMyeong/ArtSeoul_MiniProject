@@ -14,8 +14,11 @@ const marker = new Schema({
 		type: Number,
 		requried: true,
         default:0
+    },
+    markername:{
+		type: String,
+		requried: true
     }
 });
-
 
 module.exports = mongoose.model('Marker', marker);

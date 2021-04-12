@@ -2,7 +2,7 @@ const express = require('express');
 const boardRouter = express.Router();
 const jwt = require("jsonwebtoken");
 const HomeBoard = require('../schema/homeBoard');
-const User = require('../schema/User');
+const User = require('../schema/user');
 const authMiddleware = require("../middlewares/auth-middleware");
 
 //test
@@ -48,24 +48,26 @@ boardRouter.get('/', authMiddleware, async (req, res) => {
   res.json(result);
 });
 
-// 게시글 추가 
+// 게시글 추가
+// 마커안에있는 boardcount값 +1 부탁
 boardRouter.post('/', authMiddleware, async (req, res) => {
-  let result = { status: 'success' };
   const user = res.locals.user;
   console.log(user)
   try {
-    await HomeBoard.create({
+    const result = await HomeBoard.create({
+      markerId: req.body['markerId'],
       title: req.body['title'],
       contents: req.body['contents'],
       nickname: user.nickname,
       userId: user.id,
-      date: Date.now(),
       img: req.body['img']
     });
+
+    res.send({result:result});
   } catch (err) {
     result['status'] = 'fail';
+    res.json(result);
   }
-  res.json(result);
 });
 
 
@@ -94,9 +96,9 @@ boardRouter.put("/:boardId", authMiddleware, async (req, res) => {
       }
     }
   } catch (err) {
-  result["status"] = "fail";
-}
-res.json(result);
+    result["status"] = "fail";
+  }
+  res.json(result);
 });
 
 // 게시글 삭제
@@ -116,8 +118,8 @@ boardRouter.delete("/:boardId", authMiddleware, async (req, res) => {
     }
   } catch (err) {
     result["status"] = "fail";
-}
-res.json(result);
+  }
+  res.json(result);
 });
 
 module.exports = { boardRouter };
