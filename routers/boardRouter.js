@@ -31,8 +31,9 @@ boardRouter.get('/', authMiddleware, async (req, res) => {
 // 게시글 추가 
 boardRouter.post('/', authMiddleware, async (req, res) => {
 	let result = { status: 'success' };
+  const user = res.locals.user;
+  console.log(user)
 	try {
-    const user = res.locals.user;
     await HomeBoard.create({
 			title: req.body['title'],
 			contents: req.body['contents'],
@@ -99,4 +100,4 @@ boardRouter.delete("/:boardId", authMiddleware, async (req, res) => {
     res.json(result);
   });
 
-  module.exports = { boardRouter };
+module.exports = { boardRouter };
