@@ -24,39 +24,52 @@ boardRouter.get("/tt2", authMiddleware, async (req, res) => {
 });
 
 
-//게시글 목록
-boardRouter.get('/', authMiddleware, async (req, res) => {
-  let result = { status: 'success', boardsData: [] };
+// 게시글 조회
+boardRouter.get('/:markerId',async(req,res)=>{
+  const {markerId} = req.params;
   try {
-    const user = res.locals.user;
-    let boardsData = await HomeBoard.find().sort({ date: -1 });
-    for (homeBoard of boardsData) {
-      let temp = {
-        boardId: homeBoard["_id"],
-        userId: homeBoard["userId"],
-        title: homeBoard["title"],
-        contents: homeBoard["contents"],
-        nickname: homeBoard["nickname"],
-        date: homeBoard["date"],
-        img: homeBoard["img"]
-      };
-      result['boardsData'].push(temp);
-    }
-  } catch (err) {
-    console.log(err);
-    result['status'] = 'fail';
+    board_list = await HomeBoard.find({markerId:markerId});
+    res.send(board_list);
+  } catch (error) {
+    res.send({mss: "게시글 조회에 실패했습니다."})
   }
-  res.json(result);
-});
+})
+
+// 게시글 조회
+// boardRouter.get('/:markerId', authMiddleware, async (req, res) => {
+//   const {markerId} = req.params;
+//   let result = { status: 'success', boardsData: [] };
+//   try {
+//     const user = res.locals.user;
+//     let boardsData = await HomeBoard.find().sort({ date: -1 });
+//     for (homeBoard of boardsData) {
+//       let temp = {
+//         boardId: homeBoard["_id"],
+//         userId: homeBoard["userId"],
+//         title: homeBoard["title"],
+//         contents: homeBoard["contents"],
+//         nickname: homeBoard["nickname"],
+//         date: homeBoard["date"],
+//         img: homeBoard["img"]
+//       };
+//       result['boardsData'].push(temp);
+//     }
+//   } catch (err) {
+//     console.log(err);
+//     result['status'] = 'fail';
+//   }
+//   res.json(result);
+// });
 
 // 게시글 추가
 // 마커안에있는 boardcount값 +1 부탁
-boardRouter.post('/', authMiddleware, async (req, res) => {
+boardRouter.post('/:markerId', authMiddleware, async (req, res) => {
+  const {markerId} = req.params;
   const user = res.locals.user;
   console.log(user)
   try {
     const result = await HomeBoard.create({
-      markerId: req.body['markerId'],
+      markerId: markerId,
       title: req.body['title'],
       contents: req.body['contents'],
       nickname: user.nickname,
