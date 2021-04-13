@@ -92,15 +92,16 @@ const upload = multer({
 
 
 // 게시글 추가
-boardRouter.post('/:markerId', upload.single('images'), authMiddleware, async (req, res) => {
+boardRouter.post('/:markerId', upload.single('image'), authMiddleware, async (req, res) => {
   const {markerId} = req.params;
   const user = res.locals.user;
-  let images = '';
+  let image = '';
 
 if(req["file"]){ 
+  console.log(req["file"])
   console.log(req.file) 
-  images = req.file.filename  
-}
+  image = req.file.filename  
+} 
 console.log(req.body.title)
   try {
     const result = await HomeBoard.create({
@@ -110,7 +111,7 @@ console.log(req.body.title)
       contents: req.body['contents'],
       nickname: user.nickname,
       userId: user.id,
-      img: images
+      img: image
     });
     res.send({ result: result });
     console.log(result)
@@ -121,7 +122,14 @@ console.log(req.body.title)
 
 
 // 게시글 수정
-boardRouter.put("/:boardId", authMiddleware, async (req, res) => {
+boardRouter.put("/:boardId", upload.single('image'), authMiddleware, async (req, res) => {
+  
+  let image = '';
+
+  if(req["file"]){ 
+    image = req.file.filename  
+  }
+  
   let result = { status: "success", boardsData: [] };
   try {
     const user = res.locals.user;
@@ -136,9 +144,11 @@ boardRouter.put("/:boardId", authMiddleware, async (req, res) => {
       if (!n) {
         result["status"] = "fail";
       }
+
       let boardsData = await HomeBoard.findOne({ _id: boardId, userId: user.id })
       let temp = { img: boardsData['img'] }
       result["boardsData"].push(temp);
+
     } else {
       const { n } = await HomeBoard.updateOne(
         { _id: boardId, userId: user.id },
