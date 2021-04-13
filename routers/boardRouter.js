@@ -8,6 +8,9 @@ const Marker = require('../schema/marker');
 const multer = require('multer');
 const calTime = require("./calTime");
 const moment = require('moment');
+require('moment-timezone');
+moment.tz.setDefault("Asia/Seoul");
+
 
 //test
 boardRouter.get("/tt", async (req, res) => {
@@ -106,14 +109,14 @@ if(req["file"]){
   image = 'http://13.125.250.74:9090/' + req.file.filename  
 } 
 console.log(req.body.title)
+
   try {
     const result = await HomeBoard.create({
       markerId: markerId,
       markername : req.body["markername"],
       title: req.body['title'],
       contents: req.body['contents'],
-      //date : moment(new Date(Date.now())).format("YYYY-MM-DD HH:mm:ss"),
-
+      date : moment().format("YYYY-MM-DD HH:mm:ss"),
       nickname: user.nickname,
       userId: user.id,
       img: image
@@ -135,34 +138,40 @@ boardRouter.put("/:boardId", upload.single('image'), authMiddleware, async (req,
   let image = '';
 
   if(req["file"]){ 
-    image = req.file.filename  
-  }
+    console.log(req["file"])
+    console.log(req.file) 
+    image = 'http://13.125.250.74:9090/' + req.file.filename  
+    console.log(image)
+  } 
   
-  let result = { status: "success", boardsData: [] };
+  let result = { status: "success", boardsData : [] };
   try {
     const user = res.locals.user;
     console.log(user.id)
     const boardId = req.params.boardId;
-    if (req.body["img"]) {
+    if (req["file"]) {
       const { n } = await HomeBoard.updateOne(
-        { _id: boardId, userId: user.id },
-        { markerId: req.body.markerId, title: req.body.title, contents: req.body.contents, img: req.body.img }
+        { _id: boardId, userId: user.id },  
+        { markerId: req.body.markerId, title: req.body.title, contents: req.body.contents, img: image }
       );
-      console.log(n)
+      let boardsData = await HomeBoard.findOne({ _id: boardId, userId: user.id })
+      console.log(boardsData)
+      let temp = { img: boardsData['img'] }
+      result["boardsData"].push(temp);
+
       if (!n) {
         result["status"] = "fail";
       }
 
-      let boardsData = await HomeBoard.findOne({ _id: boardId, userId: user.id })
-      let temp = { img: boardsData['img'] }
-      result["boardsData"].push(temp);
+//      let boardsData = await HomeBoard.findOne({ _id: boardId, userId: user.id })
+     
 
     } else {
       const { n } = await HomeBoard.updateOne(
         { _id: boardId, userId: user.id },
         { markerId: req.body.markerId, title: req.body.title, contents: req.body.contents }
       );
-      console.log(n)
+      console.log("수" + n)
       if (!n) {
         result["status"] = "fail";
       }
