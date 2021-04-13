@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const HomeBoard = require('../schema/homeBoard');
 const User = require('../schema/user');
 const authMiddleware = require("../middlewares/auth-middleware");
+const multer = require('multer');
 
 //test
 boardRouter.get("/tt", async (req, res) => {
@@ -62,15 +63,38 @@ boardRouter.get('/:markerId',async(req,res)=>{
 // });
 
 // 게시글 추가
-<<<<<<< HEAD
-// 마커안에있는 boardcount값 +1 부탁
-boardRouter.post('/:markerId', authMiddleware, async (req, res) => {
+const storage = multer.diskStorage({
+	destination: function (req, file, cb) {
+		cb(null, 'public/');
+	},
+	filename: function (req, file, cb) {
+		let ex = file.originalname.split('.');
+		console.log(ex) 
+		cb(null, 'img' + Date.now() + parseInt(Math.random() * (99 - 10) + 10) + '.' + ex[ex.length - 1]);
+	}
+});
+
+function fileFilter(req, file, cb) {
+	const fileType = file.mimetype.split('/')[0] == 'image';
+	if (fileType) cb(null, true);
+	else cb(null, false);
+}
+
+const upload = multer({
+	storage: storage,
+	fileFilter: fileFilter
+});
+
+boardRouter.post('/:markerId', upload.single('images'), authMiddleware, async (req, res) => {
   const {markerId} = req.params;
-=======
-boardRouter.post('/', authMiddleware, async (req, res) => {
->>>>>>> af2952eaa55619bc7a3372e4948307437ad83189
   const user = res.locals.user;
-  console.log(user)
+  let images = '';
+
+if(req["file"]){ 
+  console.log(req.file) 
+  images = req.file.filename  
+}
+console.log(req.body.title)
   try {
     const result = await HomeBoard.create({
       markerId: markerId,
@@ -78,14 +102,12 @@ boardRouter.post('/', authMiddleware, async (req, res) => {
       contents: req.body['contents'],
       nickname: user.nickname,
       userId: user.id,
-      img: req.body['img']
+      img: images
     });
-
     res.send({ result: result });
     console.log(result)
   } catch (err) {
-    result['status'] = 'fail';
-    res.json(result);
+    res.send({ mss : "오류입니다." })
   }
 });
 

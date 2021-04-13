@@ -19,12 +19,11 @@ app.use(express.static('public'));
 const { userRouter } = require('./routers/userRouter');
 const { boardRouter } = require('./routers/boardRouter');
 const { markerRouter } = require('./routers/markerRouter');
-const { imageRouter } = require('./routers/imageRouter');
 
 app.use("/user",[userRouter]);
 app.use("/board",[boardRouter]);
 app.use("/marker",[markerRouter]);
-app.use("/image", [imageRouter]);
+
 
 app.listen(port, () => {
 	console.log(`Server start at http://localhost:${port}`);
