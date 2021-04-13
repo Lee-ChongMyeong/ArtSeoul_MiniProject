@@ -103,6 +103,7 @@ console.log(req.body.title)
   try {
     const result = await HomeBoard.create({
       markerId: markerId,
+      markername : req.body["markername"],
       title: req.body['title'],
       contents: req.body['contents'],
       nickname: user.nickname,
