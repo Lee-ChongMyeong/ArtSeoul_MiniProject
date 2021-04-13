@@ -51,5 +51,16 @@ userRouter.post("/login", async (req, res) => {
     }
 });
 
+// 내정보조회
+userRouter.get("/",authMiddleware,async(req,res)=>{
+    const user = res.locals.user;
+    try {
+        usernickname = user["nickname"];
+        userId = user["id"];
+        return res.send([{id:userId},{nickname:usernickname}])
+    } catch (error) {
+        return res.send({mss:"내정보조회에 실패했습니다"})
+    }
+})
 
 module.exports = { userRouter };
