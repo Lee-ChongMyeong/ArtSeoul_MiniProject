@@ -5,6 +5,7 @@ const HomeBoard = require('../schema/homeBoard');
 const User = require('../schema/user');
 const authMiddleware = require("../middlewares/auth-middleware");
 const Marker = require('../schema/marker');
+const multer = require('multer');
 
 //test
 boardRouter.get("/tt", async (req, res) => {
@@ -67,21 +68,50 @@ boardRouter.get('/:markerId', async (req, res) => {
 //   res.json(result);
 // });
 
+// 사진추가
+const storage = multer.diskStorage({
+	destination: function (req, file, cb) {
+		cb(null, 'public/');
+	},
+	filename: function (req, file, cb) {
+		let ex = file.originalname.split('.');
+		console.log(ex) 
+		cb(null, 'img' + Date.now() + parseInt(Math.random() * (99 - 10) + 10) + '.' + ex[ex.length - 1]);
+	}
+});
+
+function fileFilter(req, file, cb) {
+	const fileType = file.mimetype.split('/')[0] == 'image';
+	if (fileType) cb(null, true);
+	else cb(null, false);
+}
+
+const upload = multer({
+	storage: storage,
+	fileFilter: fileFilter
+});
+
+
 // 게시글 추가
-// 마커안에있는 boardcount값 +1 부탁
-boardRouter.post('/:markerId', authMiddleware, async (req, res) => {
-  const { markerId } = req.params;
+boardRouter.post('/:markerId', upload.single('images'), authMiddleware, async (req, res) => {
+  const {markerId} = req.params;
   const user = res.locals.user;
-  console.log(user)
+  let images = '';
+
+if(req["file"]){ 
+  console.log(req.file) 
+  images = req.file.filename  
+}
+console.log(req.body.title)
   try {
     const result = await HomeBoard.create({
       markerId: markerId,
+      markername : req.body["markername"],
       title: req.body['title'],
       contents: req.body['contents'],
-      markername: req.body['markername'],
       nickname: user.nickname,
       userId: user.id,
-      img: req.body['img']
+      img: images
     });
 
     // board count
@@ -90,9 +120,10 @@ boardRouter.post('/:markerId', authMiddleware, async (req, res) => {
     res.send({ result: result });
     console.log(result);
   } catch (err) {
-    res.send({result:"에러났음"});
+    res.send({ mss : "오류입니다." })
   }
 });
+
 
 // 게시글 수정
 boardRouter.put("/:boardId", authMiddleware, async (req, res) => {
