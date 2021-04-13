@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const HomeBoard = require('../schema/homeBoard');
 const User = require('../schema/user');
 const authMiddleware = require("../middlewares/auth-middleware");
+const Marker = require('../schema/marker');
 
 //test
 boardRouter.get("/tt", async (req, res) => {
@@ -83,11 +84,13 @@ boardRouter.post('/:markerId', authMiddleware, async (req, res) => {
       img: req.body['img']
     });
 
+    // board count
+    await Marker.findOneAndUpdate({_id:markerId},{$inc:{boardcount:1}},{ new: true });
+
     res.send({ result: result });
-    console.log(result)
+    console.log(result);
   } catch (err) {
-    result['status'] = 'fail';
-    res.json(result);
+    res.send({result:"에러났음"});
   }
 });
 
