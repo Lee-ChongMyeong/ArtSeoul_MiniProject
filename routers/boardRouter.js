@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const HomeBoard = require('../schema/homeBoard');
 const User = require('../schema/user');
 const authMiddleware = require("../middlewares/auth-middleware");
+const Marker = require('../schema/marker');
 const multer = require('multer');
 
 //test
@@ -113,8 +114,12 @@ console.log(req.body.title)
       userId: user.id,
       img: image
     });
+
+    // board count
+    await Marker.findOneAndUpdate({_id:markerId},{$inc:{boardcount:1}},{ new: true });
+
     res.send({ result: result });
-    console.log(result)
+    console.log(result);
   } catch (err) {
     res.send({ mss : "오류입니다." })
   }
