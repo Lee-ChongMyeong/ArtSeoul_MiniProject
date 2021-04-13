@@ -3,6 +3,7 @@ const { Schema } = mongoose;
 
 const homeBoard = new Schema({
 	markerId: {type: String, required: true},
+	markername: {type: String, required: true},
 	userId: { type: String, required: true },
 	title: { type: String, required: true },
 	contents: { type: String, required: true },

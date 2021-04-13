@@ -18,21 +18,26 @@ boardRouter.get("/tt", async (req, res) => {
   res.send({ mss: "아직 테스트중입니다" });
 });
 
-//test2
-boardRouter.get("/tt2", authMiddleware, async (req, res) => {
-  console.log(res.locals.user);
-  res.send({ mss: "아직 테스트중입니다" });
+//내게시글 조회
+boardRouter.get("/myboard", authMiddleware, async (req, res) => {
+  try {
+    const user = res.locals.user;
+    const myboard = await HomeBoard.find({ userId: user["id"] });
+    res.send(myboard);
+  } catch (error) {
+    res.send({mss:"내게시글 조회에 실패했습니다."})
+  }
 });
 
 
 // 게시글 조회
-boardRouter.get('/:markerId',async(req,res)=>{
-  const {markerId} = req.params;
+boardRouter.get('/:markerId', async (req, res) => {
+  const { markerId } = req.params;
   try {
-    board_list = await HomeBoard.find({markerId:markerId});
+    board_list = await HomeBoard.find({ markerId: markerId });
     res.send(board_list);
   } catch (error) {
-    res.send({mss: "게시글 조회에 실패했습니다."})
+    res.send({ mss: "게시글 조회에 실패했습니다." })
   }
 })
 
@@ -114,7 +119,7 @@ console.log(req.body.title)
 
 // 게시글 수정
 boardRouter.put("/:boardId", authMiddleware, async (req, res) => {
-  let result = { status: "success", boardsData : [] };
+  let result = { status: "success", boardsData: [] };
   try {
     const user = res.locals.user;
     console.log(user.id)
@@ -122,19 +127,19 @@ boardRouter.put("/:boardId", authMiddleware, async (req, res) => {
     if (req.body["img"]) {
       const { n } = await HomeBoard.updateOne(
         { _id: boardId, userId: user.id },
-        { markerId : req.body.markerId, title: req.body.title, contents: req.body.contents, img: req.body.img }
+        { markerId: req.body.markerId, title: req.body.title, contents: req.body.contents, img: req.body.img }
       );
       console.log(n)
       if (!n) {
         result["status"] = "fail";
       }
-      let boardsData = await HomeBoard.findOne({ _id : boardId, userId : user.id })
-      let temp = { img : boardsData['img']}
+      let boardsData = await HomeBoard.findOne({ _id: boardId, userId: user.id })
+      let temp = { img: boardsData['img'] }
       result["boardsData"].push(temp);
     } else {
       const { n } = await HomeBoard.updateOne(
         { _id: boardId, userId: user.id },
-        { markerId : req.body.markerId, title: req.body.title, contents: req.body.contents }
+        { markerId: req.body.markerId, title: req.body.title, contents: req.body.contents }
       );
       console.log(n)
       if (!n) {
