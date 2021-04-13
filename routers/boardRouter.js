@@ -77,6 +77,7 @@ boardRouter.post('/:markerId', authMiddleware, async (req, res) => {
       markerId: markerId,
       title: req.body['title'],
       contents: req.body['contents'],
+      markername: req.body['markername'],
       nickname: user.nickname,
       userId: user.id,
       img: req.body['img']
