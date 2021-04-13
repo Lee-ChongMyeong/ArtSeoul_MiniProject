@@ -62,9 +62,13 @@ boardRouter.get('/:markerId',async(req,res)=>{
 // });
 
 // 게시글 추가
+<<<<<<< HEAD
 // 마커안에있는 boardcount값 +1 부탁
 boardRouter.post('/:markerId', authMiddleware, async (req, res) => {
   const {markerId} = req.params;
+=======
+boardRouter.post('/', authMiddleware, async (req, res) => {
+>>>>>>> af2952eaa55619bc7a3372e4948307437ad83189
   const user = res.locals.user;
   console.log(user)
   try {
@@ -78,6 +82,7 @@ boardRouter.post('/:markerId', authMiddleware, async (req, res) => {
     });
 
     res.send({ result: result });
+    console.log(result)
   } catch (err) {
     result['status'] = 'fail';
     res.json(result);
@@ -87,7 +92,7 @@ boardRouter.post('/:markerId', authMiddleware, async (req, res) => {
 
 // 게시글 수정
 boardRouter.put("/:boardId", authMiddleware, async (req, res) => {
-  let result = { status: "success" };
+  let result = { status: "success", boardsData : [] };
   try {
     const user = res.locals.user;
     console.log(user.id)
@@ -95,20 +100,23 @@ boardRouter.put("/:boardId", authMiddleware, async (req, res) => {
     if (req.body["img"]) {
       const { n } = await HomeBoard.updateOne(
         { _id: boardId, userId: user.id },
-        { title: req.body.title, contents: req.body.contents, img: req.body.img }
+        { markerId : req.body.markerId, title: req.body.title, contents: req.body.contents, img: req.body.img }
       );
       console.log(n)
       if (!n) {
-        result["status"] = "fail1";
+        result["status"] = "fail";
       }
+      let boardsData = await HomeBoard.findOne({ _id : boardId, userId : user.id })
+      let temp = { img : boardsData['img']}
+      result["boardsData"].push(temp);
     } else {
       const { n } = await HomeBoard.updateOne(
         { _id: boardId, userId: user.id },
-        { title: req.body.title, contents: req.body.contents }
+        { markerId : req.body.markerId, title: req.body.title, contents: req.body.contents }
       );
       console.log(n)
       if (!n) {
-        result["status"] = "fail2";
+        result["status"] = "fail";
       }
     }
   } catch (err) {
