@@ -6,6 +6,8 @@ const User = require('../schema/user');
 const authMiddleware = require("../middlewares/auth-middleware");
 const Marker = require('../schema/marker');
 const multer = require('multer');
+const calTime = require("./calTime");
+const moment = require('moment');
 
 //test
 boardRouter.get("/tt", async (req, res) => {
@@ -36,9 +38,9 @@ boardRouter.get('/:markerId', async (req, res) => {
   const { markerId } = req.params;
   try {
     board_list = await HomeBoard.find({ markerId: markerId });
-    res.send(board_list);
+    res.json({ status : 'success', board_list });
   } catch (error) {
-    res.send({ mss: "게시글 조회에 실패했습니다." })
+    res.json({ mss: "게시글 조회에 실패했습니다." })
   }
 })
 
@@ -101,7 +103,7 @@ boardRouter.post('/:markerId', upload.single('image'), authMiddleware, async (re
 if(req["file"]){ 
   console.log(req["file"])
   console.log(req.file) 
-  image = req.file.filename  
+  image = 'http://13.125.250.74:9090/' + req.file.filename  
 } 
 console.log(req.body.title)
   try {
@@ -110,16 +112,17 @@ console.log(req.body.title)
       markername : req.body["markername"],
       title: req.body['title'],
       contents: req.body['contents'],
+      //date : moment(new Date(Date.now())).format("YYYY-MM-DD HH:mm:ss"),
+
       nickname: user.nickname,
       userId: user.id,
       img: image
     });
-
-    // board count
-    await Marker.findOneAndUpdate({_id:markerId},{$inc:{boardcount:1}},{ new: true });
-
-    res.send({ result: result });
     console.log(result);
+    await Marker.findOneAndUpdate({_id:markerId},{$inc:{boardcount:1}},{ new: true });
+    // board count
+    res.send({ result: result });
+    
   } catch (err) {
     res.send({ mss : "오류입니다." })
   }
