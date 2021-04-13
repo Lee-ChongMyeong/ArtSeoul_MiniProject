@@ -29,4 +29,3 @@ app.use("/image", [imageRouter]);
 app.listen(port, () => {
 	console.log(`Server start at http://localhost:${port}`);
 });
-
