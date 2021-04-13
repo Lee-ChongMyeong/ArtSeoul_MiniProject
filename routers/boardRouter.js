@@ -67,7 +67,7 @@ boardRouter.get('/:markerId', async (req, res) => {
 //   res.json(result);
 // });
 
-// 게시글 추가
+// 사진추가
 const storage = multer.diskStorage({
 	destination: function (req, file, cb) {
 		cb(null, 'public/');
@@ -90,6 +90,8 @@ const upload = multer({
 	fileFilter: fileFilter
 });
 
+
+// 게시글 추가
 boardRouter.post('/:markerId', upload.single('images'), authMiddleware, async (req, res) => {
   const {markerId} = req.params;
   const user = res.locals.user;
