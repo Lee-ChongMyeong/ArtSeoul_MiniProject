@@ -3,6 +3,7 @@ const userRouter = express.Router();
 const jwt = require("jsonwebtoken");
 const authMiddleware = require("../middlewares/auth-middleware.js");
 const User = require("../schema/user");
+const crypto = require('crypto');
 require('dotenv').config();
 
 
@@ -17,6 +18,10 @@ userRouter.get("/test", async (req, res) => {
 userRouter.post("/register", async (req, res) => {
     const { id, password, nickname } = req.body;
     console.log(id, password, nickname);
+
+    const newpassword = crypto.createHash('sha512').update(password).digest('base64');
+    console.log(newpassword);
+
     try {
         const existUsers = await User.find({ $or: [{ id }] });
         if (existUsers.length) {
@@ -25,7 +30,8 @@ userRouter.post("/register", async (req, res) => {
             });
             return;
         }
-        await User.create({ nickname, id, password });
+
+        await User.create({ nickname, id, password:newpassword });
         return res.status(201).send({ result: "회원가입 완료!" });
 
     } catch (error) {
@@ -35,9 +41,10 @@ userRouter.post("/register", async (req, res) => {
 
 // 로그인
 userRouter.post("/login", async (req, res) => {
-    const { id, password } = req.body;
+    let { id, password } = req.body;
     try {
-        const user = await User.findOne().and([{ id }, { password }]);
+        const newpassword = crypto.createHash('sha512').update(password).digest('base64');
+        const user = await User.findOne().and([{ id }, { password:newpassword }]);
         if (!user) {
             return res
                 .status(400)
@@ -52,14 +59,14 @@ userRouter.post("/login", async (req, res) => {
 });
 
 // 내정보조회
-userRouter.get("/",authMiddleware,async(req,res)=>{
+userRouter.get("/", authMiddleware, async (req, res) => {
     const user = res.locals.user;
     try {
         usernickname = user["nickname"];
         userId = user["id"];
-        return res.send([{id:userId},{nickname:usernickname}])
+        return res.send([{ id: userId }, { nickname: usernickname }])
     } catch (error) {
-        return res.send({mss:"내정보조회에 실패했습니다"})
+        return res.send({ mss: "내정보조회에 실패했습니다" })
     }
 })
 
