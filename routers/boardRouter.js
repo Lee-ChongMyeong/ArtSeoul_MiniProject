@@ -52,7 +52,7 @@ boardRouter.get('/:markerId', async (req, res) => {
 //   let result = { status: 'success', boardsData: [] };
 //   try {
 //     const user = res.locals.user;
-//     let boardsData = await HomeBoard.find().sort({ date: -1 });
+//     let boardsData = await HomeBoard.find({ marekrId : markerId }).sort({ date: -1 });
 //     for (homeBoard of boardsData) {
 //       let temp = {
 //         boardId: homeBoard["_id"],
@@ -60,6 +60,8 @@ boardRouter.get('/:markerId', async (req, res) => {
 //         title: homeBoard["title"],
 //         contents: homeBoard["contents"],
 //         nickname: homeBoard["nickname"],
+//         markerId : homeBoard["markerId"],
+//         markername : homeBoard["markername"],
 //         date: homeBoard["date"],
 //         img: homeBoard["img"]
 //       };
