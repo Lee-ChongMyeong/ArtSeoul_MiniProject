@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const Marker = require("../schema/marker");
 const HomeBoard = require('../schema/homeBoard');
 const authMiddleware = require("../middlewares/auth-middleware");
-const calTime = require('./calTime');
+
 
 markerRouter.get("/test", async (req, res) => {
     console.log("잘연결됐으요~");

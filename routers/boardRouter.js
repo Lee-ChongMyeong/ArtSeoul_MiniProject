@@ -6,7 +6,6 @@ const User = require('../schema/user');
 const authMiddleware = require("../middlewares/auth-middleware");
 const Marker = require('../schema/marker');
 const multer = require('multer');
-const calTime = require("./calTime");
 const moment = require('moment');
 require('moment-timezone');
 moment.tz.setDefault("Asia/Seoul");
