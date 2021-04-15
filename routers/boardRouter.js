@@ -124,7 +124,7 @@ console.log(req.body.title)
     console.log(result);
     await Marker.findOneAndUpdate({_id:markerId},{$inc:{boardcount:1}},{ new: true });
     // board count
-    res.send({ result: result });
+    res.send({ result: result }); 
     
   } catch (err) {
     res.send({ mss : "오류입니다." })
