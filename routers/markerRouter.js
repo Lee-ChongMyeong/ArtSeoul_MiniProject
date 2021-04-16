@@ -52,5 +52,17 @@ markerRouter.delete("/", async (req, res) => {
     }
 })
 
+// 핫플레이스 마커
+markerRouter.get("/display/detail", async (req, res) => {
+    const hot_marker = await Marker.find({boardcount : {"$gte": 10}} ).sort({ boardcount: -1 });
+    const normal_marker = await Marker.find({boardcount : {"$lt": 10}} ).sort({ boardcount: -1 });
+    try {
+        res.json({ status : "success", hot_marker : hot_marker, normal_marker : normal_marker });
+    } catch (error) {
+        res.json({ status : "fail"});
+    }
+});
+
+
 module.exports = { markerRouter };
 

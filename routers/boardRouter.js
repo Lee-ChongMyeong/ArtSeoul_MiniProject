@@ -11,6 +11,7 @@ require('moment-timezone');
 moment.tz.setDefault("Asia/Seoul");
 
 
+
 //test
 boardRouter.get("/tt", async (req, res) => {
   const { authorization } = req.headers;
@@ -191,10 +192,6 @@ boardRouter.put("/:boardId", upload.single('image'), authMiddleware, async (req,
       if (!n) {
         result["status"] = "fail";
       }
-
-//      let boardsData = await HomeBoard.findOne({ _id: boardId, userId: user.id })
-     
-
     } else {
       const { n } = await HomeBoard.updateOne(
         { _id: boardId, userId: user.id },
@@ -217,17 +214,14 @@ boardRouter.delete("/:boardId", authMiddleware, async (req, res) => {
   try {
     const boardId = req.params.boardId;
     const user = res.locals.user;
-    const {deletedCount} = await HomeBoard.deleteOne({
-      _id: boardId,
-      userId: user.id,
+    const bb = await HomeBoard.findOne({ _id: boardId }); 
+    console.log(bb);
+    const { deletedCount } = await HomeBoard.deleteOne({
+    _id: boardId,
+    userId: user.id,
     });
 
-    const bb = await HomeBoard.findOne({_id:boardId});
-    console.log(bb);
-
     if (deletedCount) {
-      const a = await HomeBoard.deleteOne({ boardId: boardId });
-      console.log(a);
       await Marker.findOneAndUpdate({_id:bb["markerId"]},{$inc:{boardcount: -1} },{ new: true });
     } else {
       result["status"] = "fail";

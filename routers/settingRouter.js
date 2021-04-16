@@ -67,7 +67,7 @@ settingRouter.get("/quest", async (req, res) => {
 		const settingboard = await QuestBoard.find({});
 		res.json({ result: "success", settingboard: settingboard });
 	} catch (error) {
-		res.send({ mss: " " })
+		res.json({ mss: "error" })
 	}
 });
 
@@ -91,7 +91,7 @@ settingRouter.post('/quest', authMiddleware, async (req, res) => {
 
 // Q&A 수정
 settingRouter.put('/quest/:questId', authMiddleware, async (req, res, next) => {
-	let result = { status: 'success' };
+	let result = { status: 'success', settingDate : [] };
 	try {
 		const user = res.locals.user;
 		const questId = req.params.questId;
@@ -99,9 +99,9 @@ settingRouter.put('/quest/:questId', authMiddleware, async (req, res, next) => {
 		if (!n) {
 			result['status'] = 'fail';
 		}
-		console.log(n)
-		console.log(questId)
-		console.log(user)
+		let boardsData = await QuestBoard.findOne({ _id: questId, userId: user.id })
+      	let temp = { title : boardsData['title'], contents : boardsData['contents'] }
+      	result["settingDate"].push(temp);
 
 	} catch (err) {
 		result['status'] = 'fail';
