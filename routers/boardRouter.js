@@ -69,6 +69,9 @@ boardRouter.get('/:markerId', async (req, res) => {
 // });
 
 // 사진추가
+// storage 경로 선언
+// 그리고 파일네임 선언
+// cb ?
 const storage = multer.diskStorage({
 	destination: function (req, file, cb) {
 		cb(null, 'public/');
@@ -80,12 +83,18 @@ const storage = multer.diskStorage({
 	}
 });
 
+// 파일필터?
+// 마인파일? mimetype 
+// pdf 같은거 걸러주기 위하여
 function fileFilter(req, file, cb) {
 	const fileType = file.mimetype.split('/')[0] == 'image';
 	if (fileType) cb(null, true);
 	else cb(null, false);
 }
 
+// 업로드 storage 경로 위에서 선언해놨던거 사용
+// fileFilter가 뭔가요?
+// 아 이게 미들웨어함수였군,,,?
 const upload = multer({
 	storage: storage,
 	fileFilter: fileFilter
@@ -93,6 +102,7 @@ const upload = multer({
 
 
 // 게시글 추가
+// upload.single 미들웨어 추가
 boardRouter.post('/:markerId', upload.single('images'), authMiddleware, async (req, res) => {
   const {markerId} = req.params;
   const user = res.locals.user;
@@ -100,8 +110,10 @@ boardRouter.post('/:markerId', upload.single('images'), authMiddleware, async (r
 
 if(req["file"]){ 
   console.log(req.file) 
-  images = req.file.filename  
+  images = req.file.filename
+  image = 'http://13.125.250.74:9090/' + req.file.filename  
 }
+
 console.log(req.body.title)
   try {
     const result = await HomeBoard.create({
