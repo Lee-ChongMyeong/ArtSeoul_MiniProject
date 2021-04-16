@@ -59,7 +59,7 @@ settingRouter.post("/user", upload.single('images'), authMiddleware, async (req,
 	} catch (error) {
 		res.send({mss:"프로필 수정에 실패했습니다."});
 	}
-})
+});
 
 // Q&A 목록
 settingRouter.get("/quest", async (req, res) => {

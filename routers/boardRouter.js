@@ -213,25 +213,31 @@ boardRouter.put("/:boardId", upload.single('image'), authMiddleware, async (req,
 
 // 게시글 삭제
 boardRouter.delete("/:boardId", authMiddleware, async (req, res) => {
-  const {markerId} = req.params;
   let result = { status: "success" };
   try {
     const boardId = req.params.boardId;
     const user = res.locals.user;
-    const { deletedCount } = await HomeBoard.deleteOne({
+    const {deletedCount} = await HomeBoard.deleteOne({
       _id: boardId,
       userId: user.id,
     });
+
+    const bb = await HomeBoard.findOne({_id:boardId});
+    console.log(bb);
+
     if (deletedCount) {
-      await HomeBoard.deleteMany({ boardId: boardId });
-      await Marker.findOneAndUpdate({_id:markerId},{$inc:{boardcount: -1} },{ new: true });
+      const a = await HomeBoard.deleteOne({ boardId: boardId });
+      console.log(a);
+      await Marker.findOneAndUpdate({_id:bb["markerId"]},{$inc:{boardcount: -1} },{ new: true });
     } else {
       result["status"] = "fail";
     }
+
   } catch (err) {
     result["status"] = "fail";
   }
   res.json(result);
 });
+
 
 module.exports = { boardRouter };

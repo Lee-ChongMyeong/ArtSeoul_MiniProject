@@ -19,7 +19,7 @@ const user = new Schema({
 	profile:{
 		type:String, 
 		required: true, 
-		default:"http://upload3.inven.co.kr/upload/2020/05/28/bbs/i13842534729.jpg"
+		default:"https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
 	}
 });
 
