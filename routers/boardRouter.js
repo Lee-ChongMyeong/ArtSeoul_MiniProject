@@ -214,15 +214,14 @@ boardRouter.delete("/:boardId", authMiddleware, async (req, res) => {
   try {
     const boardId = req.params.boardId;
     const user = res.locals.user;
+    const bb = await HomeBoard.findOne({ _id: boardId }); 
+    console.log(bb);
     const { deletedCount } = await HomeBoard.deleteOne({
     _id: boardId,
     userId: user.id,
     });
 
-    const bb = await HomeBoard.findOne({ _id: boardId }) 
-    
     if (deletedCount) {
-      await HomeBoard.deleteOne({ boardId: boardId }); 
       await Marker.findOneAndUpdate({_id:bb["markerId"]},{$inc:{boardcount: -1} },{ new: true });
     } else {
       result["status"] = "fail";
