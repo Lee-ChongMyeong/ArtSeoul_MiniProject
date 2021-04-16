@@ -23,7 +23,7 @@ boardRouter.get("/tt", async (req, res) => {
   res.send({ mss: "아직 테스트중입니다" });
 });
 
-//내게시글 조회
+//내 게시글 조회
 boardRouter.get("/myboard", authMiddleware, async (req, res) => {
   try {
     const user = res.locals.user;
@@ -46,8 +46,8 @@ boardRouter.get("/myboard", authMiddleware, async (req, res) => {
 //   }
 // })
 
-//게시글 조회
-boardRouter.get('/:markerId', authMiddleware, async (req, res) => {
+// 게시글 조회
+boardRouter.get('/:markerId', async (req, res) => {
   const {markerId} = req.params;
   let result = { status: 'success', boardsData: [] };
   try {
@@ -213,6 +213,7 @@ boardRouter.put("/:boardId", upload.single('image'), authMiddleware, async (req,
 
 // 게시글 삭제
 boardRouter.delete("/:boardId", authMiddleware, async (req, res) => {
+  const {markerId} = req.params;
   let result = { status: "success" };
   try {
     const boardId = req.params.boardId;
@@ -223,6 +224,7 @@ boardRouter.delete("/:boardId", authMiddleware, async (req, res) => {
     });
     if (deletedCount) {
       await HomeBoard.deleteMany({ boardId: boardId });
+      await Marker.findOneAndUpdate({_id:markerId},{$inc:{boardcount: -1} },{ new: true });
     } else {
       result["status"] = "fail";
     }
