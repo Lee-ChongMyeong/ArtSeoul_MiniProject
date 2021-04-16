@@ -67,7 +67,7 @@ settingRouter.get("/quest", async (req, res) => {
 		const settingboard = await QuestBoard.find({});
 		res.json({ result: "success", settingboard: settingboard });
 	} catch (error) {
-		res.send({ mss: " " })
+		res.json({ mss: "error" })
 	}
 });
 

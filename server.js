@@ -20,12 +20,14 @@ const { userRouter } = require('./routers/userRouter');
 const { boardRouter } = require('./routers/boardRouter');
 const { markerRouter } = require('./routers/markerRouter');
 const { commentRouter } = require('./routers/commentRouter');
+const { quest_commentRouter } = require('./routers/quest_commentRouter');
 const { settingRouter } = require('./routers/settingRouter');
 
 app.use("/user",[userRouter]);
 app.use("/board",[boardRouter]);
 app.use("/marker",[markerRouter]);
 app.use("/comment", [commentRouter]);
+app.use("/q_comment", [quest_commentRouter]);
 app.use("/setting", [settingRouter]);
 
 app.listen(port, () => {

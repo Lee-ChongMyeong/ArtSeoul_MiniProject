@@ -11,6 +11,7 @@ require('moment-timezone');
 moment.tz.setDefault("Asia/Seoul");
 
 
+
 //test
 boardRouter.get("/tt", async (req, res) => {
   const { authorization } = req.headers;
@@ -191,10 +192,6 @@ boardRouter.put("/:boardId", upload.single('image'), authMiddleware, async (req,
       if (!n) {
         result["status"] = "fail";
       }
-
-//      let boardsData = await HomeBoard.findOne({ _id: boardId, userId: user.id })
-     
-
     } else {
       const { n } = await HomeBoard.updateOne(
         { _id: boardId, userId: user.id },
@@ -213,21 +210,24 @@ boardRouter.put("/:boardId", upload.single('image'), authMiddleware, async (req,
 
 // 게시글 삭제
 boardRouter.delete("/:boardId", authMiddleware, async (req, res) => {
-  const {markerId} = req.params;
   let result = { status: "success" };
   try {
     const boardId = req.params.boardId;
     const user = res.locals.user;
     const { deletedCount } = await HomeBoard.deleteOne({
-      _id: boardId,
-      userId: user.id,
+    _id: boardId,
+    userId: user.id,
     });
+
+    const bb = await HomeBoard.findOne({ _id: boardId }) 
+    
     if (deletedCount) {
-      await HomeBoard.deleteMany({ boardId: boardId });
-      await Marker.findOneAndUpdate({_id:markerId},{$inc:{boardcount: -1} },{ new: true });
+      await HomeBoard.deleteOne({ boardId: boardId }); 
+      await Marker.findOneAndUpdate({_id:bb["markerId"]},{$inc:{boardcount: -1} },{ new: true });
     } else {
       result["status"] = "fail";
     }
+
   } catch (err) {
     result["status"] = "fail";
   }
