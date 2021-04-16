@@ -21,4 +21,12 @@ const marker = new Schema({
     }
 });
 
+marker.virtual('markerId').get(function () {	
+	return this._id.toHexString();
+});
+
+marker.set('toJSON', {
+	virtuals: true
+});
+
 module.exports = mongoose.model('Marker', marker);

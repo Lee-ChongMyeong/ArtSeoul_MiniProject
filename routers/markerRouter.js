@@ -5,6 +5,7 @@ const Marker = require("../schema/marker");
 const HomeBoard = require('../schema/homeBoard');
 const authMiddleware = require("../middlewares/auth-middleware");
 
+
 markerRouter.get("/test", async (req, res) => {
     console.log("잘연결됐으요~");
     res.send({ mss: "테스트연결은 가연이가 해냈다구~~~" });

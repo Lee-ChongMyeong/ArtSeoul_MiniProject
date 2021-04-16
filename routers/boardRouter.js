@@ -6,6 +6,10 @@ const User = require('../schema/user');
 const authMiddleware = require("../middlewares/auth-middleware");
 const Marker = require('../schema/marker');
 const multer = require('multer');
+const moment = require('moment');
+require('moment-timezone');
+moment.tz.setDefault("Asia/Seoul");
+
 
 //test
 boardRouter.get("/tt", async (req, res) => {
@@ -32,41 +36,60 @@ boardRouter.get("/myboard", authMiddleware, async (req, res) => {
 
 
 // 게시글 조회
-boardRouter.get('/:markerId', async (req, res) => {
-  const { markerId } = req.params;
-  try {
-    board_list = await HomeBoard.find({ markerId: markerId });
-    res.send(board_list);
-  } catch (error) {
-    res.send({ mss: "게시글 조회에 실패했습니다." })
-  }
-})
-
-// 게시글 조회
-// boardRouter.get('/:markerId', authMiddleware, async (req, res) => {
-//   const {markerId} = req.params;
-//   let result = { status: 'success', boardsData: [] };
+// boardRouter.get('/:markerId', async (req, res) => {
+//   const { markerId } = req.params;
 //   try {
-//     const user = res.locals.user;
-//     let boardsData = await HomeBoard.find().sort({ date: -1 });
-//     for (homeBoard of boardsData) {
-//       let temp = {
-//         boardId: homeBoard["_id"],
-//         userId: homeBoard["userId"],
-//         title: homeBoard["title"],
-//         contents: homeBoard["contents"],
-//         nickname: homeBoard["nickname"],
-//         date: homeBoard["date"],
-//         img: homeBoard["img"]
-//       };
-//       result['boardsData'].push(temp);
-//     }
-//   } catch (err) {
-//     console.log(err);
-//     result['status'] = 'fail';
+//     board_list = await HomeBoard.find({ markerId: markerId });
+//     res.json({ status : 'success', board_list });
+//   } catch (error) {
+//     res.json({ mss: "게시글 조회에 실패했습니다." })
 //   }
-//   res.json(result);
-// });
+// })
+
+//게시글 조회
+boardRouter.get('/:markerId', authMiddleware, async (req, res) => {
+  const {markerId} = req.params;
+  let result = { status: 'success', boardsData: [] };
+  try {
+    const print_count = 5;
+    let lastId = req.query["lastId"];
+    console.log(lastId);
+    let boardsData;
+    if (lastId) {
+      // 무한 스크롤 이전 페이지가 있을 경우
+      boardsData = await HomeBoard.find({ markerId : markerId })
+        .sort({ date: -1 })
+        .where("_id")
+        .lt(lastId)
+        .limit(print_count); //_id = townId
+    } else {
+      // 무한 스크롤 첫 페이지일 경우
+      boardsData = await HomeBoard.find({ markerId : markerId })
+        .sort({ date: -1 })
+        .limit(print_count);
+    }
+
+    for (homeBoard of boardsData) {
+      let temp = {
+        boardId: homeBoard["_id"],
+        userId: homeBoard["userId"],
+        title: homeBoard["title"],
+        contents: homeBoard["contents"],
+        nickname: homeBoard["nickname"],
+        markerId : homeBoard["markerId"],
+        markername : homeBoard["markername"],
+        date: homeBoard["date"],
+        img: homeBoard["img"]
+      };
+      result['boardsData'].push(temp);
+    }
+    if (boardsData.length < print_count) result["status"] = "end";
+  } catch (err) {
+    console.log(err);
+    result['status'] = 'fail';
+  }
+  res.json(result);
+});
 
 // 사진추가
 // storage 경로 선언
@@ -106,31 +129,32 @@ const upload = multer({
 boardRouter.post('/:markerId', upload.single('images'), authMiddleware, async (req, res) => {
   const {markerId} = req.params;
   const user = res.locals.user;
-  let images = '';
+  let image = '';
 
 if(req["file"]){ 
+  console.log(req["file"])
   console.log(req.file) 
   images = req.file.filename
   image = 'http://13.125.250.74:9090/' + req.file.filename  
 }
-
 console.log(req.body.title)
+
   try {
     const result = await HomeBoard.create({
       markerId: markerId,
       markername : req.body["markername"],
       title: req.body['title'],
       contents: req.body['contents'],
+      date : moment().format("YYYY-MM-DD HH:mm:ss"),
       nickname: user.nickname,
       userId: user.id,
-      img: images
+      img: image
     });
-
-    // board count
-    await Marker.findOneAndUpdate({_id:markerId},{$inc:{boardcount:1}},{ new: true });
-
-    res.send({ result: result });
     console.log(result);
+    await Marker.findOneAndUpdate({_id:markerId},{$inc:{boardcount:1}},{ new: true });
+    // board count
+    res.send({ result: result }); 
+    
   } catch (err) {
     res.send({ mss : "오류입니다." })
   }
@@ -138,30 +162,45 @@ console.log(req.body.title)
 
 
 // 게시글 수정
-boardRouter.put("/:boardId", authMiddleware, async (req, res) => {
-  let result = { status: "success", boardsData: [] };
+boardRouter.put("/:boardId", upload.single('image'), authMiddleware, async (req, res) => {
+  
+  let image = '';
+
+  if(req["file"]){ 
+    console.log(req["file"])
+    console.log(req.file) 
+    image = 'http://13.125.250.74:9090/' + req.file.filename  
+    console.log(image)
+  } 
+  
+  let result = { status: "success", boardsData : [] };
   try {
     const user = res.locals.user;
     console.log(user.id)
     const boardId = req.params.boardId;
-    if (req.body["img"]) {
+    if (req["file"]) {
       const { n } = await HomeBoard.updateOne(
-        { _id: boardId, userId: user.id },
-        { markerId: req.body.markerId, title: req.body.title, contents: req.body.contents, img: req.body.img }
+        { _id: boardId, userId: user.id },  
+        { markerId: req.body.markerId, title: req.body.title, contents: req.body.contents, img: image }
       );
-      console.log(n)
+      let boardsData = await HomeBoard.findOne({ _id: boardId, userId: user.id })
+      console.log(boardsData)
+      let temp = { img: boardsData['img'] }
+      result["boardsData"].push(temp);
+
       if (!n) {
         result["status"] = "fail";
       }
-      let boardsData = await HomeBoard.findOne({ _id: boardId, userId: user.id })
-      let temp = { img: boardsData['img'] }
-      result["boardsData"].push(temp);
+
+//      let boardsData = await HomeBoard.findOne({ _id: boardId, userId: user.id })
+     
+
     } else {
       const { n } = await HomeBoard.updateOne(
         { _id: boardId, userId: user.id },
         { markerId: req.body.markerId, title: req.body.title, contents: req.body.contents }
       );
-      console.log(n)
+      console.log("수" + n)
       if (!n) {
         result["status"] = "fail";
       }
