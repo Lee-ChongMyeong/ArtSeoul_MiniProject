@@ -64,7 +64,8 @@ userRouter.get("/", authMiddleware, async (req, res) => {
     try {
         usernickname = user["nickname"];
         userId = user["id"];
-        return res.send([{ id: userId }, { nickname: usernickname }])
+        userprofile = user["profile"];
+        return res.send([{ id: userId }, { nickname: usernickname },{profile : userprofile}])
     } catch (error) {
         return res.send({ mss: "내정보조회에 실패했습니다" })
     }
