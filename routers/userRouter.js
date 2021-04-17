@@ -20,6 +20,7 @@ userRouter.post("/register", async (req, res) => {
     console.log(id, password, nickname);
 
     const newpassword = crypto.createHash('sha512').update(password).digest('base64');
+    
     console.log(newpassword);
 
     try {

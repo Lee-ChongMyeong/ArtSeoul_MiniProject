@@ -18,6 +18,10 @@ const marker = new Schema({
     markername:{
 		type: String,
 		requried: true
+    },
+    address:{
+		type: String,
+		requried: true
     }
 });
 

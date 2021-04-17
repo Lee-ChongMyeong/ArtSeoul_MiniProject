@@ -14,10 +14,11 @@ markerRouter.get("/test", async (req, res) => {
 // 마커생성
 // 마커를 생성해도 삭제는 일반유저가 못하니까 마커에 유저ID값 넣지않음
 markerRouter.post("/", authMiddleware, async (req, res) => {
-    const { location, markertype, markername } = req.body;
+    const { location, markertype, markername,address } = req.body;
     try {
-        await Marker.create({ location: location, markertype: markertype, markername: markername });
+        await Marker.create({ location: location, markertype: markertype, markername: markername,address:address});
         Id = await Marker.findOne({ location: location });
+        console.log(Id);
         res.status(200).send({ mss: "마커 저장 성공", markerId: Id['_id'] });
     } catch (error) {
         res.status(400).send({ mss: "마커 저장 실패" })
