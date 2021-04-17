@@ -2,9 +2,25 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const user = new Schema({
-	id: { type: String, required: true, unique: true },
-	password: { type: String, required: true },
-	nickname: { type: String, required: true, unique: true },
+	id: { 
+		type: String, 
+		required: true, 
+		unique: true 
+	},
+	password: { 
+		type: String, 
+		required: true 
+	},
+	nickname: { 
+		type: String, 
+		required: true, 
+		unique: true 
+	},
+	profile:{
+		type:String, 
+		required: true, 
+		default:"https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
+	}
 });
 
 user.virtual('userId').get(function () {

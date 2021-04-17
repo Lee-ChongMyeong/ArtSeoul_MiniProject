@@ -11,6 +11,7 @@ require('moment-timezone');
 moment.tz.setDefault("Asia/Seoul");
 
 
+
 //test
 boardRouter.get("/tt", async (req, res) => {
   const { authorization } = req.headers;
@@ -23,7 +24,7 @@ boardRouter.get("/tt", async (req, res) => {
   res.send({ mss: "아직 테스트중입니다" });
 });
 
-//내게시글 조회
+//내 게시글 조회
 boardRouter.get("/myboard", authMiddleware, async (req, res) => {
   try {
     const user = res.locals.user;
@@ -36,45 +37,65 @@ boardRouter.get("/myboard", authMiddleware, async (req, res) => {
 
 
 // 게시글 조회
-boardRouter.get('/:markerId', async (req, res) => {
-  const { markerId } = req.params;
-  try {
-    board_list = await HomeBoard.find({ markerId: markerId });
-    res.json({ status : 'success', board_list });
-  } catch (error) {
-    res.json({ mss: "게시글 조회에 실패했습니다." })
-  }
-})
+// boardRouter.get('/:markerId', async (req, res) => {
+//   const { markerId } = req.params;
+//   try {
+//     board_list = await HomeBoard.find({ markerId: markerId });
+//     res.json({ status : 'success', board_list });
+//   } catch (error) {
+//     res.json({ mss: "게시글 조회에 실패했습니다." })
+//   }
+// })
 
 // 게시글 조회
-// boardRouter.get('/:markerId', authMiddleware, async (req, res) => {
-//   const {markerId} = req.params;
-//   let result = { status: 'success', boardsData: [] };
-//   try {
-//     const user = res.locals.user;
-//     let boardsData = await HomeBoard.find({ marekrId : markerId }).sort({ date: -1 });
-//     for (homeBoard of boardsData) {
-//       let temp = {
-//         boardId: homeBoard["_id"],
-//         userId: homeBoard["userId"],
-//         title: homeBoard["title"],
-//         contents: homeBoard["contents"],
-//         nickname: homeBoard["nickname"],
-//         markerId : homeBoard["markerId"],
-//         markername : homeBoard["markername"],
-//         date: homeBoard["date"],
-//         img: homeBoard["img"]
-//       };
-//       result['boardsData'].push(temp);
-//     }
-//   } catch (err) {
-//     console.log(err);
-//     result['status'] = 'fail';
-//   }
-//   res.json(result);
-// });
+boardRouter.get('/:markerId', async (req, res) => {
+  const {markerId} = req.params;
+  let result = { status: 'success', boardsData: [] };
+  try {
+    const print_count = 5;
+    let lastId = req.query["lastId"];
+    console.log(lastId);
+    let boardsData;
+    if (lastId) {
+      // 무한 스크롤 이전 페이지가 있을 경우
+      boardsData = await HomeBoard.find({ markerId : markerId })
+        .sort({ date: -1 })
+        .where("_id")
+        .lt(lastId)
+        .limit(print_count); //_id = townId
+    } else {
+      // 무한 스크롤 첫 페이지일 경우
+      boardsData = await HomeBoard.find({ markerId : markerId })
+        .sort({ date: -1 })
+        .limit(print_count);
+    }
+
+    for (homeBoard of boardsData) {
+      let temp = {
+        boardId: homeBoard["_id"],
+        userId: homeBoard["userId"],
+        title: homeBoard["title"],
+        contents: homeBoard["contents"],
+        nickname: homeBoard["nickname"],
+        markerId : homeBoard["markerId"],
+        markername : homeBoard["markername"],
+        date: homeBoard["date"],
+        img: homeBoard["img"]
+      };
+      result['boardsData'].push(temp);
+    }
+    if (boardsData.length < print_count) result["status"] = "end";
+  } catch (err) {
+    console.log(err);
+    result['status'] = 'fail';
+  }
+  res.json(result);
+});
 
 // 사진추가
+// storage 경로 선언
+// 그리고 파일네임 선언
+// cb ?
 const storage = multer.diskStorage({
 	destination: function (req, file, cb) {
 		cb(null, 'public/');
@@ -86,12 +107,18 @@ const storage = multer.diskStorage({
 	}
 });
 
+// 파일필터?
+// 마인파일? mimetype 
+// pdf 같은거 걸러주기 위하여
 function fileFilter(req, file, cb) {
 	const fileType = file.mimetype.split('/')[0] == 'image';
 	if (fileType) cb(null, true);
 	else cb(null, false);
 }
 
+// 업로드 storage 경로 위에서 선언해놨던거 사용
+// fileFilter가 뭔가요?
+// 아 이게 미들웨어함수였군,,,?
 const upload = multer({
 	storage: storage,
 	fileFilter: fileFilter
@@ -99,7 +126,8 @@ const upload = multer({
 
 
 // 게시글 추가
-boardRouter.post('/:markerId', upload.single('image'), authMiddleware, async (req, res) => {
+// upload.single 미들웨어 추가
+boardRouter.post('/:markerId', upload.single('images'), authMiddleware, async (req, res) => {
   const {markerId} = req.params;
   const user = res.locals.user;
   let image = '';
@@ -107,8 +135,9 @@ boardRouter.post('/:markerId', upload.single('image'), authMiddleware, async (re
 if(req["file"]){ 
   console.log(req["file"])
   console.log(req.file) 
+  images = req.file.filename
   image = 'http://13.125.250.74:9090/' + req.file.filename  
-} 
+}
 console.log(req.body.title)
 
   try {
@@ -163,10 +192,6 @@ boardRouter.put("/:boardId", upload.single('image'), authMiddleware, async (req,
       if (!n) {
         result["status"] = "fail";
       }
-
-//      let boardsData = await HomeBoard.findOne({ _id: boardId, userId: user.id })
-     
-
     } else {
       const { n } = await HomeBoard.updateOne(
         { _id: boardId, userId: user.id },
@@ -189,19 +214,24 @@ boardRouter.delete("/:boardId", authMiddleware, async (req, res) => {
   try {
     const boardId = req.params.boardId;
     const user = res.locals.user;
+    const bb = await HomeBoard.findOne({ _id: boardId }); 
+    console.log(bb);
     const { deletedCount } = await HomeBoard.deleteOne({
-      _id: boardId,
-      userId: user.id,
+    _id: boardId,
+    userId: user.id,
     });
+
     if (deletedCount) {
-      await HomeBoard.deleteMany({ boardId: boardId });
+      await Marker.findOneAndUpdate({_id:bb["markerId"]},{$inc:{boardcount: -1} },{ new: true });
     } else {
       result["status"] = "fail";
     }
+
   } catch (err) {
     result["status"] = "fail";
   }
   res.json(result);
 });
+
 
 module.exports = { boardRouter };

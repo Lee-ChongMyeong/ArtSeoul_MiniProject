@@ -41,7 +41,7 @@ commentRouter.post('/:boardId', authMiddleware, async (req, res, next) => {
         console.log(result)
         res.json({ status : 'success', result }); 
 	} catch (err) {
-		result['status'] = 'fail';
+		res.json({ status : 'fail' }); 
 	}
 });
 

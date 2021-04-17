@@ -65,9 +65,24 @@ userRouter.get("/", authMiddleware, async (req, res) => {
     try {
         usernickname = user["nickname"];
         userId = user["id"];
-        return res.send([{ id: userId }, { nickname: usernickname }])
+        userprofile = user["profile"];
+        return res.send([{ id: userId }, { nickname: usernickname },{profile : userprofile}])
     } catch (error) {
         return res.send({ mss: "내정보조회에 실패했습니다" })
+    }
+})
+
+// 비밀번호 변경
+userRouter.post("/newpassword",authMiddleware,async(req,res)=>{
+    const user = res.locals.user;
+    const {newpassword} = req.body;
+    try {
+        const hashpassword = crypto.createHash('sha512').update(newpassword).digest('base64');
+
+        await User.updateOne({id:user["id"]},{password:hashpassword});
+        return res.send({mss:"비밀번호 변경에 성공했습니다."});
+    } catch (error) {
+        return res.send({mss:"비밀번호 변경에 성공했습니다."});
     }
 })
 
