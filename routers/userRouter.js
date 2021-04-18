@@ -5,6 +5,7 @@ const authMiddleware = require("../middlewares/auth-middleware.js");
 const User = require("../schema/user");
 const crypto = require('crypto');
 require('dotenv').config();
+const { sendWelcomeEmail } = require('../emails/account')
 
 
 // 테스트 연결코드
@@ -16,14 +17,15 @@ userRouter.get("/test", async (req, res) => {
 // 회원가입
 // 비밀번호 확인란의 경우 프론트단에서 처리해서 제공
 userRouter.post("/register", async (req, res) => {
-    const { id, password, nickname } = req.body;
-    console.log(id, password, nickname);
+    const { id, password, email, nickname } = req.body;
+    console.log(id, password,  email, nickname);
 
     const newpassword = crypto.createHash('sha512').update(password).digest('base64');
     
     console.log(newpassword);
 
     try {
+        
         const existUsers = await User.find({ $or: [{ id }] });
         if (existUsers.length) {
             res.status(400).send({
@@ -31,8 +33,8 @@ userRouter.post("/register", async (req, res) => {
             });
             return;
         }
-
-        await User.create({ nickname, id, password:newpassword });
+        sendWelcomeEmail(email, nickname)
+        await User.create({ nickname, id, email, password:newpassword });
         return res.status(201).send({ result: "회원가입 완료!" });
 
     } catch (error) {

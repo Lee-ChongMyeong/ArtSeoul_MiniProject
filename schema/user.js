@@ -7,6 +7,13 @@ const user = new Schema({
 		required: true, 
 		unique: true 
 	},
+	email: {
+        type: String,
+		required: true,
+        unique: true,
+        trim: true,
+        lowercase: true,
+    },
 	password: { 
 		type: String, 
 		required: true 
@@ -20,7 +27,8 @@ const user = new Schema({
 		type:String, 
 		required: true, 
 		default:"https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
-	}
+	},
+	
 });
 
 user.virtual('userId').get(function () {
