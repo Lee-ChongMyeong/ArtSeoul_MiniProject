@@ -244,5 +244,16 @@ boardRouter.delete("/:boardId", authMiddleware, async (req, res) => {
   res.json(result);
 });
 
+// 다른사람 게시글
+boardRouter.get("/other/:userId",async(req,res)=>{
+  try {
+    let other = req.params;
+    console.log(other);
+    const a = await HomeBoard.find({userId:other["userId"]});
+    res.send(a);
+  } catch (error) {
+    res.send({mss:"조회에 실패했습니다."})
+  }
+})
 
 module.exports = { boardRouter };
