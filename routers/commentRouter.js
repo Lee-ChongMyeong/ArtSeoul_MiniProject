@@ -2,7 +2,7 @@ const express = require('express');
 const commentRouter = express.Router();
 const CommentBoard = require("../schema/commentBoard");
 const authMiddleware = require("../middlewares/auth-middleware");
-const jwt = require("jsonwebtoken");
+const User = require('../schema/user');
 
 
 // 댓글리스트
@@ -11,13 +11,19 @@ commentRouter.get('/:boardId', async (req, res, next) => {
 	let result = { status: 'success', comments: [] };
 	try {
 		let comments = await CommentBoard.find({ boardId: boardId }).sort({ date: -1 });
+
 		for (comment of comments) {
+			console.log(comment)
+			let profileData = await User.findOne({ id :comment["userId"] })
+			console.log(profileData)
 			let temp = {
 				commentId: comment.commentId,
 				commentContents: comment.commentContents,
 				nickname: comment.nickname,
                 boardId : boardId,
 				userId: comment.userId,
+				profile : profileData["profile"]
+
 			};
 			result['comments'].push(temp);
 		}
@@ -32,14 +38,15 @@ commentRouter.get('/:boardId', async (req, res, next) => {
 commentRouter.post('/:boardId', authMiddleware, async (req, res, next) => {
 	try {
 		const user = res.locals.user;
+		userprofile = user["profile"];
 		const result = await CommentBoard.create({
 			boardId: req.params.boardId,
 			commentContents: req.body.commentContents,
 			nickname: user.nickname,
 			userId: user.id,
+			profile : req.body['profile']
 		});
-        console.log(result)
-        res.json({ status : 'success', result }); 
+        res.json({ status : 'success', result : result, currentprofile : userprofile}); 
 	} catch (err) {
 		res.json({ status : 'fail' }); 
 	}
