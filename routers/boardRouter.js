@@ -56,13 +56,15 @@ boardRouter.get('/:markerId', async (req, res) => {
     const print_count = 5;
     let lastId = req.query["lastId"];
     console.log(lastId);
+    // * 이건 무슨선언이죠?
     let boardsData;
+
     if (lastId) {
       // 무한 스크롤 이전 페이지가 있을 경우
       boardsData = await HomeBoard.find({ markerId : markerId })
         .sort({ date: -1 })
         .where("_id")
-        .lt(lastId)
+        .lt(lastId) // 미만
         .limit(print_count); //_id = townId
     } else {
       // 무한 스크롤 첫 페이지일 경우

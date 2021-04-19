@@ -3,7 +3,7 @@ const commentRouter = express.Router();
 const CommentBoard = require("../schema/commentBoard");
 const authMiddleware = require("../middlewares/auth-middleware");
 const jwt = require("jsonwebtoken");
-
+const User = require('../schema/user');
 
 // 댓글리스트
 commentRouter.get('/:boardId', async (req, res, next) => {
@@ -12,12 +12,14 @@ commentRouter.get('/:boardId', async (req, res, next) => {
 	try {
 		let comments = await CommentBoard.find({ boardId: boardId }).sort({ date: -1 });
 		for (comment of comments) {
+			const b = await User.findOne({id:comment["userId"]},{profile:1});
 			let temp = {
 				commentId: comment.commentId,
 				commentContents: comment.commentContents,
 				nickname: comment.nickname,
                 boardId : boardId,
 				userId: comment.userId,
+				profile:b
 			};
 			result['comments'].push(temp);
 		}
