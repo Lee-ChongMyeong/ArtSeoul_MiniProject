@@ -77,7 +77,6 @@ userRouter.post("/newpassword",authMiddleware,async(req,res)=>{
     const {newpassword} = req.body;
     try {
         const hashpassword = crypto.createHash('sha512').update(newpassword).digest('base64');
-
         await User.updateOne({id:user["id"]},{password:hashpassword});
         return res.send({mss:"비밀번호 변경에 성공했습니다."});
     } catch (error) {

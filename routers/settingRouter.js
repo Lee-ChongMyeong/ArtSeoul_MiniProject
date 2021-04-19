@@ -51,11 +51,12 @@ settingRouter.post("/user", upload.single('images'), authMiddleware, async (req,
 		console.log(req.file) 
 		images = req.file.filename
 		image = 'http://13.125.250.74:9090/' + req.file.filename  
-	  }
+
+	}
 
 	try {
 		await User.findOneAndUpdate({id:user['id']},{profile:image});
-		res.send({mss:"프로필 수정에 성공했습니다!"});
+		res.send({result:image});
 	} catch (error) {
 		res.send({mss:"프로필 수정에 실패했습니다."});
 	}

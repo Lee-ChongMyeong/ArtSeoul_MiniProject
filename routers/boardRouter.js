@@ -48,6 +48,7 @@ boardRouter.get("/myboard", authMiddleware, async (req, res) => {
 // })
 
 // 게시글 조회
+// 무한스크롤
 boardRouter.get('/:markerId', async (req, res) => {
   const {markerId} = req.params;
   let result = { status: 'success', boardsData: [] };
