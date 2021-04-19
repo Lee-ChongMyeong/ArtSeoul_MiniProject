@@ -52,6 +52,9 @@ boardRouter.get("/myboard", authMiddleware, async (req, res) => {
 boardRouter.get('/:markerId', async (req, res) => {
   const {markerId} = req.params;
   let result = { status: 'success', boardsData: [] };
+
+  //Data = await HomeBoard.find({ markerId : markerId })
+  
   try {
     const print_count = 5;
     let lastId = req.query["lastId"];
@@ -73,6 +76,9 @@ boardRouter.get('/:markerId', async (req, res) => {
         .limit(print_count);
     }
 
+    let profileData = await User.findOne({ })
+    console.log(profileData)
+
     for (homeBoard of boardsData) {
       let temp = {
         boardId: homeBoard["_id"],
@@ -83,7 +89,8 @@ boardRouter.get('/:markerId', async (req, res) => {
         markerId : homeBoard["markerId"],
         markername : homeBoard["markername"],
         date: homeBoard["date"],
-        img: homeBoard["img"]
+        img: homeBoard["img"],
+        profile : profileData["profile"]
       };
       result['boardsData'].push(temp);
     }
@@ -134,6 +141,7 @@ boardRouter.post('/:markerId', upload.single('images'), authMiddleware, async (r
   const {markerId} = req.params;
   const user = res.locals.user;
   let image = '';
+  userprofile = user["profile"];
 
 if(req["file"]){ 
   console.log(req["file"])
@@ -152,15 +160,15 @@ console.log(req.body.title)
       date : moment().format("YYYY-MM-DD HH:mm:ss"),
       nickname: user.nickname,
       userId: user.id,
-      img: image
+      img: image,
     });
     console.log(result);
     await Marker.findOneAndUpdate({_id:markerId},{$inc:{boardcount:1}},{ new: true });
     // board count
-    res.send({ result: result }); 
+    res.json({ result: result, currentprofile : userprofile}); 
     
   } catch (err) {
-    res.send({ mss : "오류입니다." })
+    res.json({ mss : "오류입니다." })
   }
 });
 

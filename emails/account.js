@@ -1,7 +1,7 @@
 const sgMail = require('@sendgrid/mail')
 require('dotenv').config();
 
-const sendgridAPIKey = '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'
+const sendgridAPIKey = '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'
 
 sgMail.setApiKey(sendgridAPIKey)
 

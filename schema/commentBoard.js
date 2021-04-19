@@ -6,6 +6,7 @@ const commentBoard = new Schema({
 	commentContents: { type: String, required: true },
 	nickname: { type: String, required: true },
 	userId: { type: String, required: true },
+	profile:{ type:String, default: '' },
 });
 
 commentBoard.virtual('commentId').get(function () {
