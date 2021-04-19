@@ -2,6 +2,7 @@ const express = require('express');
 const commentRouter = express.Router();
 const CommentBoard = require("../schema/commentBoard");
 const authMiddleware = require("../middlewares/auth-middleware");
+const jwt = require("jsonwebtoken");
 const User = require('../schema/user');
 
 
