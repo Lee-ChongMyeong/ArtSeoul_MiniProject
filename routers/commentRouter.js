@@ -14,14 +14,14 @@ commentRouter.get('/:boardId', async (req, res, next) => {
 	   let comments = await CommentBoard.find({ boardId: boardId }).sort({ date: -1 });
  
 	   for (comment of comments) {
-		const profileData = await User.findOne({id:comment["userId"]},{profile:1});
+		const profileData = await User.findOne({id:comment["userId"]});
 		let temp = {
 		   commentId: comment.commentId,
 		   commentContents: comment.commentContents,
 		   nickname: comment.nickname,
-			boardId : boardId,
+		   boardId : boardId,
 		   userId: comment.userId,
-		   profile : profileData
+		   profile : profileData["profile"]
 		};
 		result['comments'].push(temp);
 	 }
@@ -42,7 +42,6 @@ commentRouter.post('/:boardId', authMiddleware, async (req, res, next) => {
 			commentContents: req.body.commentContents,
 			nickname: user.nickname,
 			userId: user.id,
-			profile : req.body['profile']
 		});
         res.json({ status : 'success', result : result, currentprofile : userprofile}); 
 	} catch (err) {
