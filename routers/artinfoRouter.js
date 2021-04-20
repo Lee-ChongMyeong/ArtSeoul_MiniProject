@@ -11,7 +11,7 @@ const currentPut = async () => {
   let response;
   try {
     response = await axios.get(
-      "http://www.kopis.or.kr/openApi/restful/pblprfr?service=bbae806ef8974970a6a19a7ddaa8420e&stdate=20210101&eddate=20210630&rows=10&cpage=1&signgucode=11&prfstate=02&shcate=AAAA"
+      "http://www.kopis.or.kr/openApi/restful/pblprfr?service=bbae806ef8974970a6a19a7ddaa8420e&stdate=20210101&eddate=20210630&rows=30&cpage=1&signgucode=11&prfstate=02&shcate=AAAA"
     );
 
   } catch (e) {
