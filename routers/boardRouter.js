@@ -76,10 +76,10 @@ boardRouter.get('/:markerId', async (req, res) => {
         .limit(print_count);
     }
 
-    let profileData = await User.findOne({ })
-    console.log(profileData)
+
 
     for (homeBoard of boardsData) {
+      const profileData = await User.findOne({id:homeBoard["userId"]},{profile:1});
       let temp = {
         boardId: homeBoard["_id"],
         userId: homeBoard["userId"],
@@ -90,7 +90,7 @@ boardRouter.get('/:markerId', async (req, res) => {
         markername : homeBoard["markername"],
         date: homeBoard["date"],
         img: homeBoard["img"],
-        profile : profileData["profile"]
+        profile : profileData
       };
       result['boardsData'].push(temp);
     }
