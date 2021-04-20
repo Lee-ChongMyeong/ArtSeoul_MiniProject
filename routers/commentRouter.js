@@ -11,17 +11,18 @@ commentRouter.get('/:boardId', async (req, res, next) => {
 	const boardId = req.params.boardId;
 	let result = { status: 'success', comments: [] };
 	try {
-	   let comments = await CommentBoard.find({ boardId: boardId }).sort({ date: -1 });
+	   let comments;
+	   comments = await CommentBoard.find({ boardId: boardId }).sort({ date: -1 });
  
 	   for (comment of comments) {
-		const profileData = await User.findOne({id:comment["userId"]});
+		const profileData = await User.findOne({id:homeBoard["userId"]},{profile:1});
 		let temp = {
 		   commentId: comment.commentId,
 		   commentContents: comment.commentContents,
 		   nickname: comment.nickname,
 		   boardId : boardId,
 		   userId: comment.userId,
-		   profile : profileData["profile"]
+		   profile : profileData
 		};
 		result['comments'].push(temp);
 	 }

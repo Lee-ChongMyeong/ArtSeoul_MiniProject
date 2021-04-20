@@ -25,7 +25,7 @@ artinfoRouter.get("/", (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");  //cors policy 해결
     //console.log(response.data);
     console.log(convert.xml2json(response.data,{compact:true,spaces:4}));
-    res.json(convert.xml2json(response.data,{compact:true,spaces:4}))
+    res.send(convert.xml2json(response.data,{compact:true,spaces:4}))
     //res.json(response.data.response.body);
     //res.json(response);
 });
