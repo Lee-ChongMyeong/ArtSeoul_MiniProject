@@ -245,12 +245,15 @@ boardRouter.delete("/:boardId", authMiddleware, async (req, res) => {
 });
 
 // 다른사람 게시글
+// 프로필 사진 추가
 boardRouter.get("/other/:userId",async(req,res)=>{
   try {
     let other = req.params;
     console.log(other);
     const a = await HomeBoard.find({userId:other["userId"]});
-    res.send(a);
+    const profile = await User.findOne({id:other["userId"]},{profile:1});
+    console.log(profile["profile"]);
+    res.send({profile:profile["profile"],contents:a});
   } catch (error) {
     res.send({mss:"조회에 실패했습니다."})
   }
