@@ -6,6 +6,8 @@ const { Schema, model, Types } = mongoose;
 const commentBoard = new Schema({
    boardId: {type: String, required: true 
    },
+   nickname: { type: String, required: true },
+	userId: { type: String, required: true },
    commentContents: { type: String, required: true },
    user: {
       type: Types.ObjectId,

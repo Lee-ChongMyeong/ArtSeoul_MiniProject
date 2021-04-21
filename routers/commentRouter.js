@@ -66,6 +66,8 @@ commentRouter.post('/:boardId', authMiddleware, async (req, res, next) => {
       const result = await CommentBoard.create({
          boardId: req.params.boardId,
          commentContents: req.body.commentContents,
+         nickname: user.nickname,
+			userId: user.id,
          user: user["_id"]
       });
       res.json({ status: 'success', result: result, currentprofile: userprofile });
