@@ -51,10 +51,10 @@ API기능(로그인 및 ) |
 </details>
 
 <details>
-<summary>길어서 여기다가 숨겼습니다</summary>
+<summary> 카카오맵 마커 API</summary>
 <div markdown="1">       
 
-API기능(카카오맵 마커)|
+API기능|
 ---|
 마커 생성
 마커 보기
@@ -64,18 +64,11 @@ API기능(카카오맵 마커)|
 </details>
 
 <details>
-<summary>길어서 여기다가 숨겼습니다</summary>
+<summary> 게시글 API </summary>
 <div markdown="1">       
 
-API기능 (게시글) |
+API기능 |
 ---|
-로그인
-회원가입
-다른사람 게시글 목록 조회
-마커 생성
-마커 보기
-마커 삭제
-핫플레이스 마커 표시
 마커에서 게시글 보기
 마커에서 게시글 쓰기
 마커에서 게시글 수정
@@ -84,10 +77,10 @@ API기능 (게시글) |
 </details>
 
 <details>
-<summary>길어서 여기다가 숨겼습니다</summary>
+<summary>공연정보 API </summary>
 <div markdown="1">       
 
-API기능 (공연정보) |
+API기능 |
 ---|
 공연 정보 목록(뮤지컬)
 공연 정보 목록(연극)
