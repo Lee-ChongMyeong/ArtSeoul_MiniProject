@@ -17,6 +17,10 @@
 자세한 설계도는 NOTION에서 확인 가능합니다!
 <a href="https://www.notion.so/ART-SEOUL-2-4821f7a5fc644af7a37e44a8f610dc4d" target="_blank">NOTION</a>
 
+<details>
+<summary>길어서 여기다가 숨겼습니다</summary>
+<div markdown="1">       
+
 API기능|
 ---|
 로그인
@@ -42,6 +46,9 @@ API기능|
 공연 정보 목록(클래식)
 공연 정보 목록(국악)
 공연 정보 목록(무용)
+
+</div>
+</details>
 
 ## 4. 사용 라이브러리
 
