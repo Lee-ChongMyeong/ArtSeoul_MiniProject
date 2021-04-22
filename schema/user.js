@@ -26,7 +26,7 @@ const user = new Schema({
 	profile:{
 		type:String, 
 		required: true, 
-		default:"https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
+		default:"https://blog.kakaocdn.net/dn/cyOIpg/btqx7JTDRTq/1fs7MnKMK7nSbrM9QTIbE1/img.jpg"
 	},
 	
 });

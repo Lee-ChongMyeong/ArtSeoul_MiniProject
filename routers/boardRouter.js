@@ -90,7 +90,7 @@ boardRouter.get('/:markerId', async (req, res) => {
         markername : homeBoard["markername"],
         date: homeBoard["date"],
         img: homeBoard["img"],
-        profile : profileData
+        profile : profileData["profile"]
       };
       result['boardsData'].push(temp);
     }

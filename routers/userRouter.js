@@ -27,12 +27,29 @@ userRouter.post("/register", async (req, res) => {
     try {
         
         const existUsers = await User.find({ $or: [{ id }] });
+        const existNickname = await User.find({ $or : [{ nickname }]});
+        const existEmail = await User.find({ $or : [{ email }]});
+
         if (existUsers.length) {
             res.status(400).send({
                 err: "이미 가입된 아이디가 있습니다.",
             });
             return;
         }
+
+        if (existNickname.length) {
+            res.status(400).send({
+                err : "이미 가입된 닉네임이 있습니다."
+            })
+        }
+
+        if (existEmail.length) {
+            res.status(400).send({
+                err : "이미 가입된 이메일이 있습니다."
+            })
+        }
+
+
         sendWelcomeEmail(email, nickname)
         await User.create({ nickname, id, email, password:newpassword });
         return res.status(201).send({ result: "회원가입 완료!" });
