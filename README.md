@@ -20,6 +20,8 @@
 
   - 이대호 (front-end-developer)
   - 권규현 (front-end-developer)
+![image](https://user-images.githubusercontent.com/79817676/115699528-ad265f00-a3a0-11eb-96c3-1d51cc6650db.png)
+
 
 ## 2. 기술스텍
 
