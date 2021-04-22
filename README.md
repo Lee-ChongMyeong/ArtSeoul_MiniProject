@@ -1,3 +1,3 @@
-# Art_Korea
+# Art_Seoul
 
-<h1> ArtSeoul의 백엔드 깃허브입니다
+<h3> ArtSeoul의 백엔드 깃허브입니다
