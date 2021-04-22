@@ -131,3 +131,4 @@ xml-js | XML > JSON 형식변환
 
 
 ## 5. 배포방식
+AWS EC2
