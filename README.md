@@ -11,12 +11,15 @@
 2021년 4월 9일 ~ 2021년 4월 22일
 
 ## 1. 작업자
-  - 이총명
+  - 이총명 (backend-developer)
 
   ![총명](https://item.kakaocdn.net/do/7d4fa4371a4ed97bebc7d1e052bcba359f17e489affba0627eb1eb39695f93dd)
-  - 원가연
+  - 원가연 (backend-developer)
 
 ![가연](https://lh3.googleusercontent.com/proxy/WGrO-2vTK1FlHLxamzZZKj1ijIYMMp4CRaPe8Yfwl1_hpit3atdzTCAHAeJweH5Omgh8WPeuCEEz96P70RHR63ptb8gUXV7jvRro-wX8KUB018l7sDzSxnBXqwpV8IIJ5QGHElt9u4qSHcbDSb9neg___h7xsKBdBEzA9xjUMXcdE4UyS1iyJGXOyV_4FhT4v6CFzHBGAKhYgsURD5IICtc1DTqQA3v2tjnAz3i2OJFukxiD5W58IXBOgCp4AkwBsKwCf0_lyrJ1AljiYrcCF4kMUtCpDNIbOIxwIv6rfAM)
+
+  - 이대호 (front-end-developer)
+  - 권규현 (front-end-developer)
 
 ## 2. 기술스텍
 
