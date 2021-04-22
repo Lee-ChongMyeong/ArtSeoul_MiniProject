@@ -26,7 +26,7 @@
 <details>
 <summary>로그인 및 회원가입</summary>
 <div markdown="1">       
-
+<br>
 API기능 |
 ---|
 로그인
