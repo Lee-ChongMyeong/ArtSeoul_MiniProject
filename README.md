@@ -143,7 +143,7 @@ xml-js | XML > JSON 형식변환
 ## 5. 배포방식
 AWS EC2
 
-## 6. 상세 페이지
+## 6. 상세 설명 페이지
 https://www.notion.so/ART-SEOUL-2-4821f7a5fc644af7a37e44a8f610dc4d
 
-
+## 7. Front-End(React) 코드 
