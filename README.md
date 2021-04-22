@@ -1,5 +1,6 @@
 # Art Seoul
 ![image](https://user-images.githubusercontent.com/79817676/115675644-bf48d300-a389-11eb-813d-384927d19e06.png)
+![image](https://user-images.githubusercontent.com/79817676/115675771-de476500-a389-11eb-90c5-bd65735c1ad4.png)
 
 ## 1. 작업자
   - 이총명
