@@ -18,10 +18,22 @@
 <a href="https://www.notion.so/ART-SEOUL-2-4821f7a5fc644af7a37e44a8f610dc4d" target="_blank">NOTION</a>
 
 <details>
-<summary>길어서 여기다가 숨겼습니다</summary>
+<summary>로그인 및 회원가입</summary>
 <div markdown="1">       
 
-API기능(로그인 및 ) |
+API기능 |
+---|
+로그인
+회원가입
+비밀번호변경
+</div>
+</details>
+
+<details>
+<summary>로그인 및 회원가입</summary>
+<div markdown="1">       
+
+API기능 |
 ---|
 로그인
 회원가입
