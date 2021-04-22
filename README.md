@@ -14,6 +14,7 @@
 
 ## 3. API설명 
 
+자세한 설계도는 NOTION에서 확인 가능합니다!
 <a href="https://www.notion.so/ART-SEOUL-2-4821f7a5fc644af7a37e44a8f610dc4d" target="_blank">NOTION</a>
 
 API기능|
