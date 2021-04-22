@@ -10,12 +10,15 @@
 
 ## 2. 기술스텍
 
-기술스텍| Back | Front
----|:---:|---:
-  | React | Node.js
-  | Redux | Express
-  | Axios | MongoDB
-  | |Javascript , JWT , Rest API
+Front | Back
+---|---:
+React | Node.js
+Redux | Express
+Axios | MongoDB
+
+공통|
+---|
+Javascript , JWT , Rest API
 
 
 ## 3. API설명 
