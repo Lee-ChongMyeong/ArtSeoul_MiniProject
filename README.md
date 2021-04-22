@@ -9,7 +9,13 @@
 ![가연](https://lh3.googleusercontent.com/proxy/WGrO-2vTK1FlHLxamzZZKj1ijIYMMp4CRaPe8Yfwl1_hpit3atdzTCAHAeJweH5Omgh8WPeuCEEz96P70RHR63ptb8gUXV7jvRro-wX8KUB018l7sDzSxnBXqwpV8IIJ5QGHElt9u4qSHcbDSb9neg___h7xsKBdBEzA9xjUMXcdE4UyS1iyJGXOyV_4FhT4v6CFzHBGAKhYgsURD5IICtc1DTqQA3v2tjnAz3i2OJFukxiD5W58IXBOgCp4AkwBsKwCf0_lyrJ1AljiYrcCF4kMUtCpDNIbOIxwIv6rfAM)
 
 ## 2. 기술스텍
-<br>
+
+기술스텍| Back | Front
+---|:---:|---:
+  | React | Node.js
+  | Redux | Express
+  | Axios | MongoDB
+  | |Javascript , JWT , Rest API
 
 
 ## 3. API설명 
