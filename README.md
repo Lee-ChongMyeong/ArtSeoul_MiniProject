@@ -147,3 +147,4 @@ AWS EC2
 https://www.notion.so/ART-SEOUL-2-4821f7a5fc644af7a37e44a8f610dc4d
 
 ## 7. Front-End(React) 코드 
+https://github.com/leedaeho1188/hh99_smallProject
