@@ -4,8 +4,7 @@ const { Schema, model, Types } = mongoose;
 // 닉네임 , 유저아이디 , 프로필사진
 
 const commentBoard = new Schema({
-   boardId: {type: String, required: true 
-   },
+   boardId: {type: String, required: true },
    nickname: { type: String, required: true },
 	userId: { type: String, required: true },
    commentContents: { type: String, required: true },

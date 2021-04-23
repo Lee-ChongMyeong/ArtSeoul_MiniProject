@@ -8,14 +8,7 @@ require('dotenv').config();
 const { sendWelcomeEmail } = require('../emails/account')
 
 
-// 테스트 연결코드
-userRouter.get("/test", async (req, res) => {
-    console.log("잘연결됐으요~");
-    res.send({ mss: "테스트연결은 가연이가 해냈다구~~~" });
-});
-
 // 회원가입
-// 비밀번호 확인란의 경우 프론트단에서 처리해서 제공
 userRouter.post("/register", async (req, res) => {
     const { id, password, email, nickname } = req.body;
     console.log(id, password,  email, nickname);
@@ -31,20 +24,20 @@ userRouter.post("/register", async (req, res) => {
         const existEmail = await User.find({ $or : [{ email }]});
 
         if (existUsers.length) {
-            res.status(400).send({
-                err: "이미 가입된 아이디가 있습니다.",
+            res.send({
+                err : "이미 가입된 아이디가 있습니다.",
             });
             return;
         }
 
         if (existNickname.length) {
-            res.status(400).send({
+            res.send({
                 err : "이미 가입된 닉네임이 있습니다."
             })
         }
 
         if (existEmail.length) {
-            res.status(400).send({
+            res.send({
                 err : "이미 가입된 이메일이 있습니다."
             })
         }
