@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
-const { Schema } = mongoose;
+const { Schema, model, Types } = mongoose;
+
+// 고정된 ref X
 
 const user = new Schema({
 	id: { 

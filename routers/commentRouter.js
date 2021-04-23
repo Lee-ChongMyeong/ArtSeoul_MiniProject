@@ -10,28 +10,53 @@ const User = require('../schema/user');
 commentRouter.get('/:boardId', async (req, res, next) => {
 	const boardId = req.params.boardId;
 	let result = { status: 'success', comments: [] };
+	// 스키마에서 user(key)값 가져와야함 , ref 말고
 	try {
-	   let comments;
-	   comments = await CommentBoard.find({ boardId: boardId }).sort({ date: -1 });
- 
-	   for (comment of comments) {
-		const profileData = await User.findOne({id:homeBoard["userId"]},{profile:1});
-		let temp = {
-		   commentId: comment.commentId,
-		   commentContents: comment.commentContents,
-		   nickname: comment.nickname,
-		   boardId : boardId,
-		   userId: comment.userId,
-		   profile : profileData
-		};
-		result['comments'].push(temp);
-	 }
-  } catch (err) {
-	 result['status'] = 'fail';
-  }
-  res.json(result);
+		const comments = await CommentBoard.find({ boardId: boardId }).populate({ path: "user", select: "nickname profile id" });
+		// console.log(comments);
+		// console.log(comments.user);
+
+		for (comment of comments) {
+			let temp = {
+				commentId: comment.commentId,
+				commentContents: comment.commentContents,
+				userId: comment.user["id"],
+				profile: comment.user["profile"],
+				nickname: comment.user["nickname"]
+			};
+			result['comments'].push(temp);
+		}
+	} catch (err) {
+		result['status'] = 'fail';
+		// res.send({mss:"오류"});
+	}
+	res.json(result);
 });
 
+// commentRouter.get('/:boardId', async (req, res, next) => {
+// 	const boardId = req.params.boardId;
+// 	let result = { status: 'success', comments: [] };
+// 	try {
+// 	   let comments;
+// 	   comments = await CommentBoard.find({ boardId: boardId }).populate({ path: "User" }).sort({ date: -1 });
+
+// 	   for (comment of comments) {
+// 	   const profileData = await User.findOne({id : comment["userId"]});
+// 	   let temp = {
+// 		  commentId: comment.commentId,
+// 		  commentContents: comment.commentContents,
+// 		  nickname: comment.nickname,
+// 		  boardId : boardId,
+// 		  userId: comment.userId,
+// 		  profile : profileData["profile"]
+// 	   };
+// 	   result['comments'].push(temp);
+// 	 }
+//    } catch (err) {
+// 	 result['status'] = 'fail';
+//    }
+//    res.json(result);
+//  });
 
 // 댓글추가
 commentRouter.post('/:boardId', authMiddleware, async (req, res, next) => {
@@ -41,12 +66,11 @@ commentRouter.post('/:boardId', authMiddleware, async (req, res, next) => {
 		const result = await CommentBoard.create({
 			boardId: req.params.boardId,
 			commentContents: req.body.commentContents,
-			nickname: user.nickname,
-			userId: user.id,
+			user: user["_id"]
 		});
-        res.json({ status : 'success', result : result, currentprofile : userprofile}); 
+		res.json({ status: 'success', result: result, currentprofile: userprofile });
 	} catch (err) {
-		res.json({ status : 'fail' }); 
+		res.json({ status: 'fail' });
 	}
 });
 
