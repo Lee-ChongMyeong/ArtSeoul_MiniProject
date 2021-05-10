@@ -16,7 +16,7 @@
 
   - 이대호 (front-end-developer)
   - 권규현 (front-end-developer)
-
+  
 
 ## 2. 기술스텍
 
