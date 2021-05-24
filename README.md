@@ -23,7 +23,7 @@
 Front | Back
 ---|---:
 React | Node.js
-Redux | Express
+Redux | Express 
 Axios | MongoDB  
 
 공통|
