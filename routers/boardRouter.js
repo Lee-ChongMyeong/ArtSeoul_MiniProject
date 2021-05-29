@@ -9,7 +9,7 @@ const multer = require('multer');
 const moment = require('moment');
 require('moment-timezone');
 moment.tz.setDefault("Asia/Seoul");
-
+require('dotenv').config();
 
 //내 게시글 조회
 boardRouter.get("/myboard", authMiddleware, async (req, res) => {
@@ -102,9 +102,9 @@ boardRouter.post('/:markerId', upload.single('images'), authMiddleware, async (r
   let image = '';
   userprofile = user["profile"];
 
-if(req["file"]){
+if(req["file"]){  
   images = req.file.filename
-  image = 'http://52.78.108.93:3000/' + req.file.filename  
+  image = 'http://52.78.108.93/' + req.file.filename  
 }
 
 console.log(req.body.title)
@@ -136,7 +136,7 @@ boardRouter.put("/:boardId", upload.single('image'), authMiddleware, async (req,
   if(req["file"]){ 
     console.log(req["file"])
     console.log(req.file) 
-    image = 'http://52.78.108.93:3000/' + req.file.filename  
+    image = 'http://52.78.108.93/' + req.file.filename  
     console.log(image)
   } 
   

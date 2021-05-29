@@ -50,7 +50,7 @@ settingRouter.post("/user", upload.single('images'), authMiddleware, async (req,
 		console.log(req["file"])
 		console.log(req.file) 
 		images = req.file.filename
-		image = 'http://52.78.108.93:3000/' + req.file.filename  
+		image = 'http://52.78.108.93/' + req.file.filename  
 
 	}
 
