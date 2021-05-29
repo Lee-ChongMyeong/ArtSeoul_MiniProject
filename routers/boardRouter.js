@@ -44,6 +44,7 @@ boardRouter.get('/:markerId', async (req, res) => {
         .sort({ date: -1 })
         .limit(print_count);
     }
+    
     for (homeBoard of boardsData) {
       const profileData = await User.findOne({id:homeBoard["userId"]},{profile:1});
       let temp = {
@@ -136,7 +137,7 @@ boardRouter.put("/:boardId", upload.single('image'), authMiddleware, async (req,
   if(req["file"]){ 
     console.log(req["file"])
     console.log(req.file) 
-    image = 'http://13.125.250.74:9090/' + req.file.filename  
+    image = 'http://13.125.250.74:3000/' + req.file.filename  
     console.log(image)
   } 
   
