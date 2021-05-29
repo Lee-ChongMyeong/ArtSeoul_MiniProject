@@ -1,7 +1,7 @@
 # Art Seoul
 # 웹사이트 주소
+### 서버가 꺼져 있을 시에는 맨 밑의 시연영상을 참조해주세요 !
 http://artseoul.shop/
-### 서버가 꺼져 있을 시에 맨 밑의 시연영상을 참조해주세요 !
 
 ![image](https://user-images.githubusercontent.com/79817676/115675644-bf48d300-a389-11eb-813d-384927d19e06.png)
 ![image](https://user-images.githubusercontent.com/79817676/115675771-de476500-a389-11eb-90c5-bd65735c1ad4.png)
