@@ -3,7 +3,6 @@ const { Schema, model, Types } = mongoose;
 
 const artinfo = new Schema({
   prfnm: {
-    // 이름
     type: String,
     required: true
   },

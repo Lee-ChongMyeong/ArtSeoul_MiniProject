@@ -11,19 +11,6 @@ require('moment-timezone');
 moment.tz.setDefault("Asia/Seoul");
 
 
-
-//test
-boardRouter.get("/tt", async (req, res) => {
-  const { authorization } = req.headers;
-  const [tokenType, tokenValue] = authorization.split(" ");
-
-  const { userId } = jwt.verify(tokenValue, process.env.SECRET_KEY);
-  console.log(userId);
-  const user = await User.findOne({ id: userId });
-  console.log(user);
-  res.send({ mss: "아직 테스트중입니다" });
-});
-
 //내 게시글 조회
 boardRouter.get("/myboard", authMiddleware, async (req, res) => {
   try {
@@ -36,48 +23,27 @@ boardRouter.get("/myboard", authMiddleware, async (req, res) => {
 });
 
 
-// 게시글 조회
-// boardRouter.get('/:markerId', async (req, res) => {
-//   const { markerId } = req.params;
-//   try {
-//     board_list = await HomeBoard.find({ markerId: markerId });
-//     res.json({ status : 'success', board_list });
-//   } catch (error) {
-//     res.json({ mss: "게시글 조회에 실패했습니다." })
-//   }
-// })
-
-// 게시글 조회
-// 무한스크롤
+// 게시글 조회 (무한스크롤)
 boardRouter.get('/:markerId', async (req, res) => {
   const {markerId} = req.params;
   let result = { status: 'success', boardsData: [] };
-
-  //Data = await HomeBoard.find({ markerId : markerId })
-  
   try {
     const print_count = 5;
     let lastId = req.query["lastId"];
     console.log(lastId);
-    // * 이건 무슨선언이죠?
     let boardsData;
 
     if (lastId) {
-      // 무한 스크롤 이전 페이지가 있을 경우
       boardsData = await HomeBoard.find({ markerId : markerId })
         .sort({ date: -1 })
         .where("_id")
-        .lt(lastId) // 미만
-        .limit(print_count); //_id = townId
+        .lt(lastId)
+        .limit(print_count); 
     } else {
-      // 무한 스크롤 첫 페이지일 경우
       boardsData = await HomeBoard.find({ markerId : markerId })
         .sort({ date: -1 })
         .limit(print_count);
     }
-
-
-
     for (homeBoard of boardsData) {
       const profileData = await User.findOne({id:homeBoard["userId"]},{profile:1});
       let temp = {
@@ -90,7 +56,7 @@ boardRouter.get('/:markerId', async (req, res) => {
         markername : homeBoard["markername"],
         date: homeBoard["date"],
         img: homeBoard["img"],
-        profile : profileData
+        profile : profileData["profile"]
       };
       result['boardsData'].push(temp);
     }
@@ -103,9 +69,6 @@ boardRouter.get('/:markerId', async (req, res) => {
 });
 
 // 사진추가
-// storage 경로 선언
-// 그리고 파일네임 선언
-// cb ?
 const storage = multer.diskStorage({
    destination: function (req, file, cb) {
       cb(null, 'public/');
@@ -117,18 +80,12 @@ const storage = multer.diskStorage({
    }
 });
 
-// 파일필터?
-// 마인파일? mimetype 
-// pdf 같은거 걸러주기 위하여
 function fileFilter(req, file, cb) {
    const fileType = file.mimetype.split('/')[0] == 'image';
    if (fileType) cb(null, true);
    else cb(null, false);
 }
 
-// 업로드 storage 경로 위에서 선언해놨던거 사용
-// fileFilter가 뭔가요?
-// 아 이게 미들웨어함수였군,,,?
 const upload = multer({
    storage: storage,
    fileFilter: fileFilter
@@ -136,8 +93,6 @@ const upload = multer({
 
 
 // 게시글 추가
-// populate를 위한 밑작업 완료
-// upload.single 미들웨어 추가
 boardRouter.post('/:markerId', upload.single('images'), authMiddleware, async (req, res) => {
   const {markerId} = req.params;
   const user = res.locals.user;
@@ -164,7 +119,6 @@ console.log(req.body.title)
     });
     console.log(result);
     await Marker.findOneAndUpdate({_id:markerId},{$inc:{boardcount:1}},{ new: true });
-    // board count
     res.json({ result: result, currentprofile : userprofile}); 
     
   } catch (err) {
@@ -244,15 +198,15 @@ boardRouter.delete("/:boardId", authMiddleware, async (req, res) => {
   res.json(result);
 });
 
-// 다른사람 게시글
-// 게시글추가부터 작업해야함(작업했음..)
-// 그사람 프로필사진
+// 프로필 사진 추가
 boardRouter.get("/other/:userId",async(req,res)=>{
   try {
     let other = req.params;
-    const userId = await User.find({id:other["userId"]},{_id:1});
-    const a = await HomeBoard.find({user:userId}).populate({path:"user",select:"profile nickname id"});
-    res.send(a);
+    console.log(other);
+    const a = await HomeBoard.find({userId:other["userId"]});
+    const profile = await User.findOne({id:other["userId"]},{profile:1});
+    console.log(profile["profile"]);
+    res.send({profile:profile["profile"],contents:a});
   } catch (error) {
     res.send({mss:"조회에 실패했습니다."})
   }
