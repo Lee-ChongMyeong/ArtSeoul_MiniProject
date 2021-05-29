@@ -146,12 +146,11 @@ boardRouter.post('/:markerId', upload.single('images'), authMiddleware, async (r
   let image = '';
   userprofile = user["profile"];
 
-if(req["file"]){ 
-  console.log(req["file"])
-  console.log(req.file) 
+if(req["file"]){
   images = req.file.filename
-  image = 'http://13.125.250.74:9090/' + req.file.filename  
+  image = 'http://52.78.108.93:3000/' + req.file.filename  
 }
+
 console.log(req.body.title)
   try {
     const result = await HomeBoard.create({
@@ -182,7 +181,7 @@ boardRouter.put("/:boardId", upload.single('image'), authMiddleware, async (req,
   if(req["file"]){ 
     console.log(req["file"])
     console.log(req.file) 
-    image = 'http://13.125.250.74:9090/' + req.file.filename  
+    image = 'http://52.78.108.93:3000/' + req.file.filename  
     console.log(image)
   } 
   
