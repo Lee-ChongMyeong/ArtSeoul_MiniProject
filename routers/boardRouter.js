@@ -201,13 +201,12 @@ boardRouter.delete("/:boardId", authMiddleware, async (req, res) => {
   res.json(result);
 });
 
-
+// 다른 사람 게시글 조회
 boardRouter.get("/other/:userId",async(req,res)=>{
   try {
     let other = req.params;
-    console.log(other);
-    const a = await HomeBoard.find({userId:other["userId"]});
-    const profile = await User.findOne({id:other["userId"]},{profile:1});
+    const a = await HomeBoard.find({user:other["userId"]});
+    const profile = await User.findOne({_id : other["userId"] });
     console.log(profile["profile"]);
     res.send({profile:profile["profile"],contents:a});
   } catch (error) {
