@@ -46,7 +46,8 @@ boardRouter.get('/:markerId', async (req, res) => {
     }
     
     for (homeBoard of boardsData) {
-      const profileData = await User.findOne({id:homeBoard["userId"]},{profile:1});
+      const profileData = await User.findOne({_id:homeBoard.user},{profile:1});
+      console.log('profileData', profileData);
       let temp = {
         boardId: homeBoard["_id"],
         userId: homeBoard["userId"],
