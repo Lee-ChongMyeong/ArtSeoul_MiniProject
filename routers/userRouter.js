@@ -76,7 +76,8 @@ userRouter.get("/", authMiddleware, async (req, res) => {
     const user = res.locals.user;
     try {
         usernickname = user["nickname"];
-        userId = user["id"];
+        userId = user["_id"];
+        console.log(userId);
         userprofile = user["profile"];
         return res.send([{ id: userId }, { nickname: usernickname },{profile : userprofile}])
     } catch (error) {
