@@ -12,22 +12,19 @@
 
 ## 1. 작업자
   - 이총명 (backend-developer)
-<img width="300" src="https://item.kakaocdn.net/do/7d4fa4371a4ed97bebc7d1e052bcba359f17e489affba0627eb1eb39695f93dd">
-
   - 원가연 (backend-developer)
-<img width="300" src="https://lh3.googleusercontent.com/proxy/WGrO-2vTK1FlHLxamzZZKj1ijIYMMp4CRaPe8Yfwl1_hpit3atdzTCAHAeJweH5Omgh8WPeuCEEz96P70RHR63ptb8gUXV7jvRro-wX8KUB018l7sDzSxnBXqwpV8IIJ5QGHElt9u4qSHcbDSb9neg___h7xsKBdBEzA9xjUMXcdE4UyS1iyJGXOyV_4FhT4v6CFzHBGAKhYgsURD5IICtc1DTqQA3v2tjnAz3i2OJFukxiD5W58IXBOgCp4AkwBsKwCf0_lyrJ1AljiYrcCF4kMUtCpDNIbOIxwIv6rfAM">
 
   - 이대호 (front-end-developer)
-  - 권규현 (front-end-developer)
-
+  - 권규현 (front-end-developer) 
+  
 
 ## 2. 기술스텍
 
 Front | Back
 ---|---:
 React | Node.js
-Redux | Express
-Axios | MongoDB
+Redux | Express 
+Axios | MongoDB  
 
 공통|
 ---|
@@ -37,7 +34,7 @@ Javascript , JWT , Rest API
 ## 3. API설명 
 
 자세한 설계도는 NOTION에서 확인 가능합니다!
-<a href="https://www.notion.so/ART-SEOUL-2-4821f7a5fc644af7a37e44a8f610dc4d" target="_blank">NOTION 링크</a>
+<a href="https://www.notion.so/ART-SEOUL-2-eb5f60496e7244de88e5620109d64629" target="_blank">NOTION 링크</a>
 
 <details>
 <summary>로그인 및 회원가입</summary>
@@ -147,7 +144,7 @@ xml-js | XML > JSON 형식변환
 AWS EC2
 
 ## 6. 상세 설명 페이지
-https://www.notion.so/ART-SEOUL-2-4821f7a5fc644af7a37e44a8f610dc4d
+https://www.notion.so/7-8-611bb848146548eeb5ce5595e83b8b37
 
 ## 7. Front-End(React) 코드 
 https://github.com/leedaeho1188/hh99_smallProject

@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
-const { Schema } = mongoose;
+const { Schema, model, Types } = mongoose;
+
+// 고정된 ref X
 
 const user = new Schema({
 	id: { 
@@ -24,7 +26,7 @@ const user = new Schema({
 		unique: true 
 	},
 	profile:{
-		type:String, 
+		type:String,
 		required: true, 
 		default:"https://blog.kakaocdn.net/dn/cyOIpg/btqx7JTDRTq/1fs7MnKMK7nSbrM9QTIbE1/img.jpg"
 	},

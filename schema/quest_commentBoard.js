@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { Schema } = mongoose;
+const { Schema, model, Types } = mongoose;
 
 const quest_commentBoard = new Schema({
 	questId: { type: String, required: true },

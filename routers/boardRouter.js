@@ -71,25 +71,25 @@ boardRouter.get('/:markerId', async (req, res) => {
 
 // 사진추가
 const storage = multer.diskStorage({
-	destination: function (req, file, cb) {
-		cb(null, 'public/');
-	},
-	filename: function (req, file, cb) {
-		let ex = file.originalname.split('.');
-		console.log(ex) 
-		cb(null, 'img' + Date.now() + parseInt(Math.random() * (99 - 10) + 10) + '.' + ex[ex.length - 1]);
-	}
+   destination: function (req, file, cb) {
+      cb(null, 'public/');
+   },
+   filename: function (req, file, cb) {
+      let ex = file.originalname.split('.');
+      console.log(ex) 
+      cb(null, 'img' + Date.now() + parseInt(Math.random() * (99 - 10) + 10) + '.' + ex[ex.length - 1]);
+   }
 });
 
 function fileFilter(req, file, cb) {
-	const fileType = file.mimetype.split('/')[0] == 'image';
-	if (fileType) cb(null, true);
-	else cb(null, false);
+   const fileType = file.mimetype.split('/')[0] == 'image';
+   if (fileType) cb(null, true);
+   else cb(null, false);
 }
 
 const upload = multer({
-	storage: storage,
-	fileFilter: fileFilter
+   storage: storage,
+   fileFilter: fileFilter
 });
 
 
@@ -97,17 +97,17 @@ const upload = multer({
 boardRouter.post('/:markerId', upload.single('images'), authMiddleware, async (req, res) => {
   const {markerId} = req.params;
   const user = res.locals.user;
+  console.log(user["_id"]);
+  
   let image = '';
   userprofile = user["profile"];
 
-if(req["file"]){ 
-  console.log(req["file"])
-  console.log(req.file) 
+if(req["file"]){
   images = req.file.filename
-  image = 'http://13.125.250.74:9090/' + req.file.filename  
+  image = 'http://52.78.108.93:3000/' + req.file.filename  
 }
-console.log(req.body.title)
 
+console.log(req.body.title)
   try {
     const result = await HomeBoard.create({
       markerId: markerId,
@@ -115,8 +115,7 @@ console.log(req.body.title)
       title: req.body['title'],
       contents: req.body['contents'],
       date : moment().format("YYYY-MM-DD HH:mm:ss"),
-      nickname: user.nickname,
-      userId: user.id,
+      user: user["_id"],
       img: image,
     });
     console.log(result);
@@ -137,7 +136,11 @@ boardRouter.put("/:boardId", upload.single('image'), authMiddleware, async (req,
   if(req["file"]){ 
     console.log(req["file"])
     console.log(req.file) 
+<<<<<<< HEAD
     image = 'http://13.125.250.74:3000/' + req.file.filename  
+=======
+    image = 'http://52.78.108.93:3000/' + req.file.filename  
+>>>>>>> 79a3fc082161965e7e2c2d10181eab4fcf622010
     console.log(image)
   } 
   
@@ -151,7 +154,7 @@ boardRouter.put("/:boardId", upload.single('image'), authMiddleware, async (req,
         { _id: boardId, userId: user.id },  
         { markerId: req.body.markerId, title: req.body.title, contents: req.body.contents, img: image }
       );
-      let boardsData = await HomeBoard.findOne({ _id: boardId, userId: user.id })
+      let boardsData = await HomeBoard.findOne({ _id: boardId, user: user["_id"] })
       console.log(boardsData)
       let temp = { img: boardsData['img'] }
       result["boardsData"].push(temp);
@@ -185,7 +188,7 @@ boardRouter.delete("/:boardId", authMiddleware, async (req, res) => {
     console.log(bb);
     const { deletedCount } = await HomeBoard.deleteOne({
     _id: boardId,
-    userId: user.id,
+    user: user["_id"],
     });
 
     if (deletedCount) {
