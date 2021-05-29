@@ -15,7 +15,7 @@ require('dotenv').config();
 boardRouter.get("/myboard", authMiddleware, async (req, res) => {
   try {
     const user = res.locals.user;
-    const myboard = await HomeBoard.find({ userId: user["id"] });
+    const myboard = await HomeBoard.find({ user: user["_id"] });
     res.send(myboard);
   } catch (error) {
     res.send({mss:"내게시글 조회에 실패했습니다."})
