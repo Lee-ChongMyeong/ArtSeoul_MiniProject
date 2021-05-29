@@ -207,7 +207,7 @@ boardRouter.get("/other/:userId",async(req,res)=>{
     let other = req.params;
     const a = await HomeBoard.find({user:other["userId"]});
     const profile = await User.findOne({_id : other["userId"] });
-    res.send({profile:profile,contents:a});
+    res.send({profile:profile["profile"], nickname : profile["nickname"], contents:a});
   } catch (error) {
     res.send({mss:"조회에 실패했습니다."})
   }
