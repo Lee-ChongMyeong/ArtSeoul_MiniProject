@@ -201,7 +201,7 @@ boardRouter.delete("/:boardId", authMiddleware, async (req, res) => {
   res.json(result);
 });
 
-// 프로필 사진 추가
+
 boardRouter.get("/other/:userId",async(req,res)=>{
   try {
     let other = req.params;
