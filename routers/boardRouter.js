@@ -136,11 +136,7 @@ boardRouter.put("/:boardId", upload.single('image'), authMiddleware, async (req,
   if(req["file"]){ 
     console.log(req["file"])
     console.log(req.file) 
-<<<<<<< HEAD
-    image = 'http://13.125.250.74:3000/' + req.file.filename  
-=======
     image = 'http://52.78.108.93:3000/' + req.file.filename  
->>>>>>> 79a3fc082161965e7e2c2d10181eab4fcf622010
     console.log(image)
   } 
   
