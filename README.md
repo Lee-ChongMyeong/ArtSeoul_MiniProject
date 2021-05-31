@@ -37,91 +37,8 @@ Javascript , JWT , Rest API
 
 ## 3. API설명 
 
-자세한 설계도는 NOTION에서 확인 가능합니다!
-<a href="https://www.notion.so/API-994b91df54304003a4f0670dab31ee06" target="_blank">NOTION 링크</a>
 
-<details>
-<summary>로그인 및 회원가입</summary>
-<div markdown="1">       
 
-API기능 |
----|
-로그인
-회원가입
-비밀번호변경
-<br>
-</div>
-</details>
-
-<details>
-<summary>마이페이지</summary>
-<div markdown="1">       
-
-API기능 |
----|
-다른사람 게시글 목록 조회
-내 게시글
-내정보조회
-프로필 추가 및 수정
-<br>
-</div>
-</details>
-
-<details>
-<summary>댓글작성</summary>
-<div markdown="1">       
-
-API기능 |
----|
-게시글 댓글 목록
-게시글 댓글 추가
-게시글 댓글 삭제
-<br>
-</div>
-</details>
-
-<details>
-<summary> 카카오맵 마커 API</summary>
-<div markdown="1">       
-
-API기능|
----|
-마커 생성
-마커 보기
-마커 삭제
-핫플레이스 마커 표시
-<br>
-</div>
-</details>
-
-<details>
-<summary> 게시글 API </summary>
-<div markdown="1">       
-
-API기능 |
----|
-마커에서 게시글 보기
-마커에서 게시글 쓰기
-마커에서 게시글 수정
-마커에서 게시글 삭제
-<br>
-</div>
-</details>
-
-<details>
-<summary>공연정보 API </summary>
-<div markdown="1">       
-
-API기능 |
----|
-공연 정보 목록(뮤지컬)
-공연 정보 목록(연극)
-공연 정보 목록(클래식)
-공연 정보 목록(국악)
-공연 정보 목록(무용)
-<br>
-</div>
-</details>
 
 ## 4. 사용 라이브러리
 
@@ -144,11 +61,18 @@ xml-js | XML > JSON 형식변환
 
 
 
-## 5. 배포방식
-AWS EC2
+## 5. 코드 리뷰 및 개선사항
+1. 사진업로드
+2. axios로 공공데이터 불러오기
+3. 비밀번호 암호화
+4. dotenv를 사용한 보안문제 해결
+
+개선사항
+1. 토큰 시간설정 (refresh token + access token으로 분할)
+2. 
 
 ## 6. 상세 설명 페이지
-https://www.notion.so/7-8-611bb848146548eeb5ce5595e83b8b37
+https://www.notion.so/ART-SEOUL-2-eb5f60496e7244de88e5620109d64629
 
 ## 7. Front-End(React) 코드 
 https://github.com/leedaeho1188/hh99_smallProject
