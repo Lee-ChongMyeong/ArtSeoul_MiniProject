@@ -46,7 +46,7 @@ Javascript , JWT , Rest API
 |마커에서 게시글 보기 | GET | /board/:markerId?lastId | status, boardsData :[{ boardId, userId, title, contents, nickname, markerId, markername, date, img, profile } .. {} |
 |마커에서 게시글 쓰기 | POST | /board/:markerId | result : { date, img, _id, markerId, markername, title, contents, nickname, userId, boardId }, currentprofile |
 |마커에서 게시글 수정 | PUT | /board/:boardId | status : "success" or "fail", "boardData" : [{img}] | 
-|마커에서 게시글 삭제 | DELETE | /board/:boardId | status : "success" or "fail"|
+|마커에서 게시글 삭제 | DELETE | /board/:boardId | status : "success" & "fail"|
 |공연정보목록(뮤지컬)| GET|/artinfo/music | 공공데이터 |
 
 
