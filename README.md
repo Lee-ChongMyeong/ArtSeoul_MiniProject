@@ -92,7 +92,8 @@ xml-js | XML > JSON 형식변환
 ![image](https://user-images.githubusercontent.com/57881683/120218984-7c75f700-c275-11eb-9a9d-1f6dc7ff0ed8.png)
 
 - 지도 데이터 위도경도의 소숫점 잘림 해결 : 마커 데이터의 경우 위도와 경도가 소숫점 12번째자리까지 가지고 있는 경우가 있습니다. 이를 number형식으로 저장할 시 소숫점 3번째 자리까지 반올림되어 저장되는 현상을 발견했습니다. 그래서 이를 str값으로 받아준 뒤 다시 내려줄때 number로 변환하는 식으로 로직을 변경했습니다.
-![image](https://user-images.githubusercontent.com/57881683/120219006-8697f580-c275-11eb-9aaa-fcf34286d8f3.png)
+![image](https://user-images.githubusercontent.com/57881683/120221066-b5fc3180-c278-11eb-9a4b-2b1f7eeab568.png)
+
 
 - 무한스크롤:게시글을 조회할때 모든 데이터를 한꺼번에 불러오면 사용자들이 스크롤 하는데 있어서 불편함이 있었습니다. 그래서 게시글의 마지막ID를 쿼리스트링으로 처리한 후, 그 해당하는 쿼리스트링에 마지막ID까지 데이터를 보여주었습니다. 그럼으로써 불필요하게 모든 데이터를 불러올 필요가 없어졌습니다.
 ![image](https://user-images.githubusercontent.com/57881683/120219380-205fa280-c276-11eb-8bff-7fcc71180e1d.png)
