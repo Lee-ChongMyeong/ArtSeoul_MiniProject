@@ -36,11 +36,13 @@ Javascript , JWT , Rest API
 
 
 ## 3. API설명 
-|기능|Method|URL| Request Params / Body|
+|기능|Method|URL| Response|
 |:---|:---:|:---:|:---:|
-|구글 로그인|GET|/auth/google||
-|데일리 질문 받기(3개)|GET|/card/daily|cardId, topic, contents, createdUser, available, profileImg, answerCount, otherProfileImg|
-|답변쓰기|POST|/card| questionId, contents, isOpen |
+|로그인|POST|/user/login| token |
+|회원가입|POST|/user/register| msg : "empty" & "success" & "fail" |
+|마커 생성|POST|/marker| mss: "마커 저장 성공", markerId |
+|마커 보기|GET|/marker/display| markerId, location |
+|마커 삭제|DELETE|/marker| status : "success" & "fail" |
 
 
 
