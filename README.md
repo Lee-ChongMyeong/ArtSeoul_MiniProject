@@ -43,6 +43,12 @@ Javascript , JWT , Rest API
 |마커 생성|POST|/marker| mss: "마커 저장 성공", markerId |
 |마커 보기|GET|/marker/display| markerId, location |
 |마커 삭제|DELETE|/marker| status : "success" & "fail" |
+|마커에서 게시글 쓰기 | POST | /board/:markerId | result : { date, img, _id, markerId, markername, title, contents, nickname, userId, boardId }, currentprofile |
+|마커에서 게시글 수정 | PUT | /board/:boardId | status : "success" or "fail", "boardData" : [{img}] | 
+|마커에서 게시글 삭제 | DELETE | /board/:boardId | status : "success" or "fail"|
+|공연정보목록(뮤지컬)| GET|/artinfo/music | 공공데이터 |
+
+
 
 
 
