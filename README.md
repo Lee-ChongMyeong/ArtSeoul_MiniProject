@@ -102,8 +102,6 @@ xml-js | XML > JSON 형식변환
 ![image](https://user-images.githubusercontent.com/57881683/120219380-205fa280-c276-11eb-8bff-7fcc71180e1d.png)
 
 
-개선사항
-1. 토큰 시간설정 (refresh token + access token으로 분할)
 
 ## 6. 상세 설명 페이지
 https://www.notion.so/ART-SEOUL-2-eb5f60496e7244de88e5620109d64629
