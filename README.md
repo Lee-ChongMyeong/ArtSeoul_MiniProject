@@ -38,7 +38,7 @@ Javascript , JWT , Rest API
 ## 3. API설명 
 
 자세한 설계도는 NOTION에서 확인 가능합니다!
-<a href="https://www.notion.so/ART-SEOUL-2-eb5f60496e7244de88e5620109d64629" target="_blank">NOTION 링크</a>
+<a href="https://www.notion.so/API-994b91df54304003a4f0670dab31ee06" target="_blank">NOTION 링크</a>
 
 <details>
 <summary>로그인 및 회원가입</summary>
