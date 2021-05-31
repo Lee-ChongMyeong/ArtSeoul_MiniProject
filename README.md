@@ -36,7 +36,11 @@ Javascript , JWT , Rest API
 
 
 ## 3. API설명 
-
+|기능|Method|URL| Request Params / Body|
+|:---|:---:|:---:|:---:|
+|구글 로그인|GET|/auth/google||
+|데일리 질문 받기(3개)|GET|/card/daily|cardId, topic, contents, createdUser, available, profileImg, answerCount, otherProfileImg|
+|답변쓰기|POST|/card| questionId, contents, isOpen |
 
 
 
